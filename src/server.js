@@ -15,7 +15,7 @@ console.log("check env", process.env.PORT + " " + process.env.HOST_NAME)
 
 //khai bao route
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World! 1234')
 })
 
 app.get('/abc', (req, res) => {
