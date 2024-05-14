@@ -13,6 +13,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 console.log("check env", process.env.PORT + " " + process.env.HOST_NAME)
 
+//config static file
+app.use(express.static(path.join(__dirname, 'public')));
+
 //khai bao route
 app.get('/', (req, res) => {
   res.send('Hello World! 1234')
