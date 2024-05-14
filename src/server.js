@@ -11,7 +11,6 @@ const hostname= process.env.HOST_NAME;
 
 //config template engine
 configVewEngine(app);
-console.log("check env", process.env.PORT + " " + process.env.HOST_NAME)
 
 //khai bao route
 app.use('/', webRoute);
