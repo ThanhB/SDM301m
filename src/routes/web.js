@@ -1,16 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const { getHomePage, getABC, getThanhPage } = require('../controller/homeController');
+
 
 //khai bao route
-router.get('/', (req, res) => {
-    res.send('Hello World! 1234')
-  })
+router.get('/', getHomePage)
+router.get('/abc', getABC)
+router.get('/thanh', getThanhPage)
   
-  router.get('/abc', (req, res) => {
-    res.send('check ABC')
-  })
-  router.get('/thanh', (req, res) => {
-   res.render('sample.ejs');
-  })
-  
-  module.exports = router;
+module.exports = router;

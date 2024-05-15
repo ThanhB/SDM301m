@@ -15,6 +15,10 @@ configVewEngine(app);
 //khai bao route
 app.use('/', webRoute);
 
+// handle 404 - keep this as your last route
+app.use(function(req, res, next) {
+  res.status(404).render('404.ejs');
+});
 
 app.listen(port, hostname ,() => {
   console.log(`sever run at http://${hostname}:${port}`)
