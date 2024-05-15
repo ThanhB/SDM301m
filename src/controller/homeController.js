@@ -1,18 +1,14 @@
 
 
 const getHomePage = (req, res) =>{
-    res.send('Hello World')
+    res.render('home.ejs')
 }
 
 const getABC = (req, res) =>{
     res.send("Check abc")
 }
-  const getThanhPage = (req, res) => {
-   res.render('sample.ejs');
-  }
 
 module.exports = {
     getHomePage,
-    getABC,
-    getThanhPage
+    getABC
 }
