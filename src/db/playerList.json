@@ -1,0 +1,32 @@
+[
+    {
+      "id": 1,
+      "name": "Player 1",
+      "position": "Forward",
+      "avatar": "avatars/player1.png"
+    },
+    {
+      "id": 2,
+      "name": "Player 2",
+      "position": "Midfielder",
+      "avatar": "avatars/player2.png"
+    },
+    {
+      "id": 3,
+      "name": "Player 3",
+      "position": "Defender",
+      "avatar": "avatars/player3.png"
+    },
+    {
+      "id": 4,
+      "name": "Player 4",
+      "position": "Goalkeeper",
+      "avatar": "avatars/player4.png"
+    },
+    {
+      "id": 5,
+      "name": "Player 5",
+      "position": "Forward",
+      "avatar": "avatars/player5.png"
+    }
+  ]

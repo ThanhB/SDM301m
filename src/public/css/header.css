@@ -1,8 +1,13 @@
 /* Style the header with a grey background and some padding */
+*{
+  margin: 0;
+}
+
 .header {
     overflow: hidden;
     background-color: #39ac31;
     padding: 20px 10px;
+    
   }
   
   /* Style the header links */
@@ -38,7 +43,7 @@
   /* Float the link section to the left */
   .header-left {
     float: left;
-    margin-left: 30px;
+    margin-left: 40px;
   }
 
   .header-left a{
