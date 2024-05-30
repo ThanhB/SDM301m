@@ -8,7 +8,4 @@ const getABC = (req, res) =>{
     res.send("Check abc")
 }
 
-module.exports = {
-    getHomePage,
-    getABC
-}
+export { getHomePage, getABC };

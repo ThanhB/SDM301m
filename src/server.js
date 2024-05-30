@@ -1,10 +1,14 @@
-require('dotenv').config();
-const express = require('express' );
-const configVewEngine = require('./config/viewEngine');
+import dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
+import configVewEngine from './config/viewEngine.js';
+import path from 'path';
+import webRoute from './routes/web.js';
+import connectDB from './db/db.js';
+
 const app = express();
-const path = require('path');
-const webRoute = require('./routes/web');
-const connectDB = require('./db/db');
+
 //config port
 const port = process.env.PORT || 8888 ;
 const hostname= process.env.HOST_NAME;

@@ -1,23 +1,9 @@
-const mongoose = require("mongoose"); // Erase if already required
-
+import mongoose from 'mongoose';
+import commentSchema from './comment.js';
 // Declare the Schema of the Mongo model
 
-//comment schema
-const commentSchema = new Schema(
-  {
-    rating: { type: Number, min: 1, max: 3, required: true },
-    content: { type: String, required: true },
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Members",
-      required: true,
-    },
-  },
-  { timestamps: true }
-);
-
 //watch schema
-const watchSchema = new Schema(
+const watchSchema = new mongoose.Schema(
   {
     watchName: { type: String, required: true },
     image: { type: String, required: true },
@@ -35,4 +21,4 @@ const watchSchema = new Schema(
 );
 
 //Export the model
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("Watch", watchSchema);

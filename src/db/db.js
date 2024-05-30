@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 mongoose.Promise = global.Promise;
 
@@ -14,4 +14,4 @@ function connectDB() {
     });
 }
 
-module.exports = connectDB;
+export default connectDB;
