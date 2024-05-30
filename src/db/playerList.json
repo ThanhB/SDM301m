@@ -9,24 +9,24 @@
       "id": 2,
       "name": "Player 2",
       "position": "Midfielder",
-      "avatar": "avatars/player2.png"
+      "avatar": "../public/images/images.jpg"
     },
     {
       "id": 3,
       "name": "Player 3",
       "position": "Defender",
-      "avatar": "avatars/player3.png"
+      "avatar": "../public/images/images.jpg"
     },
     {
       "id": 4,
       "name": "Player 4",
       "position": "Goalkeeper",
-      "avatar": "avatars/player4.png"
+      "avatar": "../public/images/images.jpg"
     },
     {
       "id": 5,
       "name": "Player 5",
       "position": "Forward",
-      "avatar": "avatars/player5.png"
+      "avatar": "../public/images/images.jpg"
     }
   ]

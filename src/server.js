@@ -4,7 +4,7 @@ const configVewEngine = require('./config/viewEngine');
 const app = express();
 const path = require('path');
 const webRoute = require('./routes/web');
-const dbConnection = require('./db/db');
+const connectDB = require('./db/db');
 //config port
 const port = process.env.PORT || 8888 ;
 const hostname= process.env.HOST_NAME;
@@ -21,7 +21,7 @@ app.use(function(req, res, next) {
 });
 
 // Connect to the database and start the server
-dbConnection().then(() => {
+connectDB().then(() => {
   app.listen(port, hostname ,() => {
     console.log(`sever run at http://${hostname}:${port}`)
   });
