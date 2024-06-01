@@ -1,8 +1,19 @@
 import express from "express";
-import brandSchema from "../models/brand.js";
-import Watch from "../models/watcheschema.js";
+import BrandController from "../controller/apiController/brandController.js";
+import WatchController from "../controller/apiController/watchController.js";
 const router = express.Router();
 
+{/* Brand API*/}
+//get all brands
+router.get("/api/brand", BrandController.getBrands);
+
+//create new brand 
+router.post("/api/create-brand", BrandController.createBrand);
+
+//get brand by id
+router.get("/api/brand/:id", BrandController.getBrandById);
+
+{/* Watch API*/}
 /**
  * @swagger
  * /api/watch:
@@ -53,81 +64,13 @@ const router = express.Router();
  *                         type: integer
  */
 //GET all watches
-router.get("/api/watch", async (req, res) => {
-  try {
-    const data = await Watch.find({});
-    res
-      .status(200)
-      .json({ statusCode: 200, message: "get watch successfully", data: data });
-    console.log("get watch successfully");
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .json({ message: "An error occurred while fetching the watches" });
-  }
-});
+router.get("/api/watch", WatchController.getWatches);
+
+//get watch by id
+router.get('/api/watch/:id', WatchController.getWatchById);
 
 //create new watch
-router.post("/api/create-watch", async (req, res) => {
-  const {
-    watchName,
-    image,
-    price,
-    Automatic,
-    watchDescription,
-    comments,
-    brand,
-  } = req.body;
+router.post("/api/create-watch", WatchController.createWatch);
 
-  // ...existing validation code...
-  if (
-    !watchName ||
-    typeof watchName !== "string" ||
-    !image ||
-    typeof image !== "string" ||
-    price === undefined ||
-    typeof price !== "number" ||
-    Automatic === undefined ||
-    typeof Automatic !== "boolean" ||
-    !watchDescription ||
-    typeof watchDescription !== "string" ||
-    !brand ||
-    typeof brand !== "string"
-  ) {
-    return res.status(400).json({ message: "Invalid input types" });
-  }
-  if (!watchName || !image || !price || !watchDescription || !brand) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-  try {
-    // Fetch the brand document from the Brands collection
-    const brandDoc = await brandSchema.findOne({ brandName: brand });
 
-    // If the brand doesn't exist, return an error
-    if (!brandDoc) {
-      return res.status(400).json({ message: "Brand not found" });
-    }
-
-    // Use the ObjectId of the brand document
-    const brandId = brandDoc._id;
-
-    const watch = await Watch.create({
-      watchName,
-      image,
-      price,
-      Automatic,
-      watchDescription,
-      comments,
-      brand: brandId, // Use the brandId here
-    });
-
-    res.status(201).json({ message: "Watch added successfully" });
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .json({ message: "An error occurred while creating the watch" });
-  }
-});
 export default router;

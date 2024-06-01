@@ -9,12 +9,13 @@ const hostname = process.env.HOST_NAME || "localhost";
 app.use(express.json());
 
 app.use(apiRoutes);
+// swagger(app);
 
 app.use(function (req, res, next) {
   res.status(404).json({ message: "Not Found" });
 });
 
-swagger(app);
+
 
 connectDB()
   .then(() => {
