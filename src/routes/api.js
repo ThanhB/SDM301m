@@ -11,9 +11,8 @@ const router = express.Router();
 //get list memeber
 router.get("/api/accounts", AuthenController.getMembers);
 
-{
-  /* Authen API */
-}
+//get member by id
+router.get("/api/accounts/:id", AuthenController.getMemberById);
 
 {
   /* Brand API*/
@@ -28,6 +27,15 @@ router.post("/api/create-brand", BrandController.createBrand);
 
 //create new watch
 router.post("/api/create-watch", WatchController.createWatch);
+
+
+
+
+
+
+
+
+
 
 {
   /* Public router */
