@@ -8,3 +8,7 @@ const brandSchema = new mongoose.Schema(
 
 //Export the model
 export default mongoose.model("Brand", brandSchema);
+
+
+
+

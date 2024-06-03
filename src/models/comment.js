@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import Members from "./members.js";
 const commentSchema = new mongoose.Schema(
     {
       rating: { type: Number, min: 1, max: 3, required: true },

@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
-const memberSchema = new Schema(
+
+const memberSchema = new mongoose.Schema(
   {
     membername: { type: String, required: true },
     password: { type: String, required: true },
@@ -8,3 +9,5 @@ const memberSchema = new Schema(
   },
   { timestamps: true }
 );
+
+export default mongoose.model("Members", memberSchema);

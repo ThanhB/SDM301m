@@ -1,11 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 mongoose.Promise = global.Promise;
 
 function connectDB() {
   return mongoose
-    .connect("mongodb://localhost:27017/SDN301", {
-    })
+    .connect("mongodb://localhost:27017/SDN301", {})
     .then(() => {
       console.log("MongoDB Connection Succeeded.");
     })

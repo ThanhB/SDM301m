@@ -1,7 +1,7 @@
 import Watch from "../../models/watcheschema.js";
 import brandSchema from "../../models/brand.js";
+import mongoose, { Types } from "mongoose";
 class WatchController {
-
   static async getWatches(req, res) {
     try {
       const data = await Watch.find({});
@@ -41,30 +41,35 @@ class WatchController {
       Automatic === undefined ||
       typeof Automatic !== "boolean" ||
       !watchDescription ||
-      typeof watchDescription !== "string" ||
-      !brand ||
-      typeof brand !== "string"
+      typeof watchDescription !== "string"
     ) {
       return res.status(400).json({ message: "Invalid input types" });
     }
     if (!watchName || !image || !price || !watchDescription || !brand) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    try {
 
+    if (!mongoose.Types.ObjectId.isValid(brand)) {
+      return res.status(400).json({ message: "Invalid brand id" });
+    }
+
+    const brandDoc = await brandSchema.findById(
+      new mongoose.Types.ObjectId(brand)
+    );
+    if (!brandDoc) {
+      console.log("abc");
+      return res.status(400).json({ message: "Brand not found" });
+    }
+    try {
       // Check if the watch exists
-      const existingWatch = await Watch.findOne({ watchName });
-      if (existingWatch) {
-        return res.status(400).json({ message: "Watch already exists" });
-      }
+      // const existingWatch = await Watch.findOne({ watchName });
+      // if (existingWatch) {
+      //   return res.status(400).json({ message: "Watch already exists" });
+      // }
 
       // Fetch the brand document from the Brands collection
-      const brandDoc = await brandSchema.findOne({ brandName: brand });
 
       // If the brand doesn't exist, return an error
-      if (!brandDoc) {
-        return res.status(400).json({ message: "Brand not found" });
-      }
 
       // Use the ObjectId of the brand document
       const brandId = brandDoc._id;
@@ -76,7 +81,7 @@ class WatchController {
         Automatic,
         watchDescription,
         comments,
-        brand: brandId, // Use the brandId here
+        brand: new mongoose.Types.ObjectId(brandId), // Use the brandId here
       });
 
       res.status(201).json({ message: "Watch added successfully" });
@@ -110,7 +115,6 @@ class WatchController {
   }
 
   //update watch by id
- 
 }
 
 export default WatchController;
