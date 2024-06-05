@@ -4,8 +4,7 @@ dotenv.config();
 import express from "express";
 import configVewEngine from "./config/viewEngine.js";
 import webRoute from "./routes/web.js";
-import connectDB from "./db/db.js";
-import swagger from "./swagger.js" ;
+import webconnectDB from "./db/webdb.js";
 const app = express();
 //config port
 const port = process.env.PORT || 8888;
@@ -23,7 +22,7 @@ app.use(function (req, res, next) {
 });
 
 // Connect to the database and start the server
-connectDB()
+webconnectDB()
   .then(() => {
     app.listen(port, hostname, () => {
       console.log(`sever run at http://${hostname}:${port}`);

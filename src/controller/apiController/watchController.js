@@ -2,6 +2,8 @@ import Watch from "../../models/watcheschema.js";
 import brandSchema from "../../models/brand.js";
 import mongoose, { Types } from "mongoose";
 class WatchController {
+
+  //get all watch
   static async getWatches(req, res) {
     try {
       const data = await Watch.find({});
@@ -19,6 +21,7 @@ class WatchController {
     }
   }
 
+  //create watch
   static async createWatch(req, res) {
     const {
       watchName,
