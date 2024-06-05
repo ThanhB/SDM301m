@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import members from "../../models/members.js";
-
-class MemberController{
-      //get all members
+import mongoose from "mongoose";
+class MemberController {
+  //get all members
   static async getMembers(req, res) {
     try {
       // if (req.member.isAdmin !== true) {
@@ -25,20 +25,16 @@ class MemberController{
   //get member detail by id
   static async getMemberById(req, res) {
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)){
-      return res
-        .status(400)
-        .json({ statusCode: 400, message: "Invalid id" });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ statusCode: 400, message: "Invalid id" });
     }
     try {
       const member = await members.findById(id);
-        res
-          .status(200)
-          .json({
-            statusCode: 200,
-            message: "get member successfully",
-            data: member,
-          });
+      res.status(200).json({
+        statusCode: 200,
+        message: "get member successfully",
+        data: member,
+      });
     } catch (err) {
       console.error(err);
       res
@@ -49,8 +45,15 @@ class MemberController{
 
   //edit member
   static async editMember(req, res) {
-    const { membername, password, name, YOB, isAdmin } = req.body;
+    const { membername, name, YOB } = req.body;
     const { id } = req.params;
+
+    //kiem tra co phai la nguoi dung hien tai khong
+    if (req.user.id !== id) {
+      return res
+        .status(403)
+        .json({ message: "You can only edit your own information" });
+    }
 
     try {
       const member = await members.findById(id);
@@ -58,12 +61,10 @@ class MemberController{
         return res.status(404).json({ message: "Member not found" });
       }
 
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // edit nguoi dung
       member.membername = membername;
-      member.password = hashedPassword;
       member.name = name;
       member.YOB = YOB;
-      member.isAdmin = isAdmin;
 
       await member.save();
       res.status(200).json({

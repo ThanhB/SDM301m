@@ -1,6 +1,11 @@
 import bcrypt from "bcrypt";
 import members from "../../models/members.js";
-import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import {
+  signAccessToken,
+  verifyToken,
+} from "../../middleware/jwtAccessToken.js";
+
 class AuthenController {
   //register member
   static async register(req, res) {
@@ -15,11 +20,10 @@ class AuthenController {
         YOB,
         isAdmin: isAdmin === "false",
       });
-
+      const token = await signAccessToken(member._id.toString());
       res.status(201).json({
         statusCode: 201,
         message: "Member registered successfully",
-        data: member,
       });
     } catch (err) {
       console.error(err);
@@ -48,10 +52,11 @@ class AuthenController {
           .json({ message: "Invalid username or password" });
       }
 
+      const token = await signAccessToken(member._id.toString());
+      res.setHeader("Authorization", "Bearer " + token);
       res.status(200).json({
         statusCode: 200,
         message: "Logged in successfully",
-        data: member,
       });
     } catch (err) {
       console.error(err);
@@ -59,6 +64,20 @@ class AuthenController {
     }
   }
 
+  //logout member
+  static async logout(req, res) {
+    try {
+      // Invalidate the token on client side
+      res.status(200).json({
+        statusCode: 200,
+        message: "Logged out successfully",
+        token: null,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "An error occurred while logging out" });
+    }
+  }
 }
 
 export default AuthenController;
