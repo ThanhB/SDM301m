@@ -20,7 +20,6 @@ class AuthenController {
         YOB,
         isAdmin: isAdmin === "false",
       });
-      const token = await signAccessToken(member._id.toString());
       res.status(201).json({
         statusCode: 201,
         message: "Member registered successfully",
@@ -57,6 +56,7 @@ class AuthenController {
       res.status(200).json({
         statusCode: 200,
         message: "Logged in successfully",
+        accessToken: "Bearer " + token,
       });
     } catch (err) {
       console.error(err);
@@ -71,13 +71,36 @@ class AuthenController {
       res.status(200).json({
         statusCode: 200,
         message: "Logged out successfully",
-        token: null,
+        Authorization: null,
       });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "An error occurred while logging out" });
     }
   }
+
+  // Get user info
+static async getUserInfo(req, res) {
+  const { id } = req.user;
+
+  try {
+    const member = await members.findById(id).select('-password -__v');
+    if (!member) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "User information retrieved successfully",
+      data: member,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "An error occurred while retrieving user information" });
+  }
 }
+}
+
+
 
 export default AuthenController;

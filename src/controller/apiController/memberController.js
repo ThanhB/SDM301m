@@ -45,7 +45,7 @@ class MemberController {
 
   //edit member
   static async editMember(req, res) {
-    const { membername, name, YOB } = req.body;
+    const { membername, password, name, YOB } = req.body;
     const { id } = req.params;
 
     //kiem tra co phai la nguoi dung hien tai khong
@@ -61,8 +61,10 @@ class MemberController {
         return res.status(404).json({ message: "Member not found" });
       }
 
-      // edit nguoi dung
+      
+      const hashedPassword = await bcrypt.hash(password, 10);
       member.membername = membername;
+      member.password = hashedPassword;
       member.name = name;
       member.YOB = YOB;
 

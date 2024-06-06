@@ -118,6 +118,46 @@ class WatchController {
   }
 
   //update watch by id
+  static async updateWatch(req, res) {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    try {
+      const watch = await Watch.findByIdAndUpdate(id, updateData, { new: true });
+      if (!watch) {
+        return res.status(404).json({ message: "Watch not found" });
+      }
+
+      res.status(200).json({
+        statusCode: 200,
+        message: "Watch updated successfully",
+        data: watch,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "An error occurred while updating the watch" });
+    }
+  }
+
+   // Delete a watch
+   static async deleteWatch(req, res) {
+    const { id } = req.params;
+
+    try {
+      const watch = await Watch.findByIdAndDelete(id);
+      if (!watch) {
+        return res.status(404).json({ message: "Watch not found" });
+      }
+
+      res.status(200).json({
+        statusCode: 200,
+        message: "Watch deleted successfully",
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "An error occurred while deleting the watch" });
+    }
+  }
 }
 
 export default WatchController;

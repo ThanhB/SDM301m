@@ -9,4 +9,7 @@ authenRouter.post("/api/authen/login", AuthenController.login);
 //register
 authenRouter.post("/api/authen/register", AuthenController.register);
 
+//get user info
+authenRouter.get('/api/authen/user/info', AuthenController.getUserInfo);
+
 export default authenRouter;

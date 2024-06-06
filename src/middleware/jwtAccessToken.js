@@ -24,7 +24,7 @@ export function signAccessToken(id) {
     const payload = {};
     const secret = process.env.ACCESS_TOKEN_SECRET;
     const options = {
-      expiresIn: "30m",
+      expiresIn: "1d",
       issuer: "localhost",
       audience: id,
     };

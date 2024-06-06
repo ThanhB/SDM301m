@@ -5,7 +5,7 @@ class BrandController {
   //get brands
   static async getBrands(req, res) {
     try {
-      const brands = await brandSchema.find({});
+      const brands = await brandSchema.find({}).select("-__v");
       res
         .status(200)
         .json({
@@ -59,7 +59,7 @@ class BrandController {
   static async getBrandById(req, res) {
     const { id } = req.params;
     try {
-      const brand = await brandSchema.findById(id);
+      const brand = await brandSchema.findById(id).select("-__v");
       if (!brand) {
         return res.status(404).json({ message: "Brand not found" });
       }

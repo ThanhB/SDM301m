@@ -12,11 +12,26 @@ watchRouter.get(
   authenticateToken,
   WatchController.getWatchById
 );
-
+//create watch
 watchRouter.post(
   "/api/create-watch",
   authenticateToken,
   WatchController.createWatch
 );
+
+//update watch
+watchRouter.put(
+  "/api/update-watch/:id",
+  authenticateToken,
+  WatchController.updateWatch
+);
+
+//delte watch
+watchRouter.delete(
+  "/api/delete-watch/:id",
+  authenticateToken,
+  WatchController.deleteWatch
+);
+
 
 export default watchRouter;

@@ -4,7 +4,7 @@ dotenv.config();
 import express from "express";
 import configVewEngine from "./config/viewEngine.js";
 import webRoute from "./routes/web.js";
-import connectDB from "./db/webdb.js";
+import connectDB from "./db/db.js";
 const app = express();
 //config port
 const port = process.env.PORT || 8888;
