@@ -1,10 +1,7 @@
 import bcrypt from "bcrypt";
 import members from "../../models/members.js";
-import jwt from "jsonwebtoken";
-import {
-  signAccessToken,
-  verifyToken,
-} from "../../middleware/jwtAccessToken.js";
+import mongoose from "mongoose";
+import { signAccessToken } from "../../middleware/jwtAccessToken.js";
 
 class AuthenController {
   //register member
@@ -52,6 +49,11 @@ class AuthenController {
       }
 
       const token = await signAccessToken(member._id.toString());
+      // luu token trong cookie
+      res.cookie('accessToken', token, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000 
+      });
       res.setHeader("Authorization", "Bearer " + token);
       res.status(200).json({
         statusCode: 200,
@@ -80,27 +82,25 @@ class AuthenController {
   }
 
   // Get user info
-static async getUserInfo(req, res) {
-  const { id } = req.user;
-
-  try {
-    const member = await members.findById(id).select('-password -__v');
-    if (!member) {
-      return res.status(404).json({ message: "User not found" });
+  static async getUserInfo(req, res) {
+    const id = req.user.id;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ statusCode: 400, message: "Invalid id" });
     }
-
-    res.status(200).json({
-      statusCode: 200,
-      message: "User information retrieved successfully",
-      data: member,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "An error occurred while retrieving user information" });
+    try {
+      const member = await members.findById(id).select(" -__v");
+      res.status(200).json({
+        statusCode: 200,
+        message: "User information retrieved successfully",
+        data: member,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        message: "An error occurred while retrieving user information",
+      });
+    }
   }
 }
-}
-
-
 
 export default AuthenController;

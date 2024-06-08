@@ -1,6 +1,7 @@
 import express from "express";
 import BrandController from "../../controller/apiController/brandController.js";
 import { authenticateToken } from "../../middleware/jwtAccessToken.js";
+import { isAdmin } from "../../middleware/authen.js";
 const brandRoute = express.Router();
 
 //get all brands
@@ -15,8 +16,8 @@ brandRoute.get(
 
 //create new brand
 brandRoute.post(
-  "/api/create-brand",
-  authenticateToken,
+  "/api/create-brand", isAdmin, 
+  authenticateToken, 
   BrandController.createBrand
 );
 
