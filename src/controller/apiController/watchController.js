@@ -2,7 +2,6 @@ import Watch from "../../models/watcheschema.js";
 import brandSchema from "../../models/brand.js";
 import mongoose, { Types } from "mongoose";
 class WatchController {
-
   //get all watch
   static async getWatches(req, res) {
     try {
@@ -123,7 +122,9 @@ class WatchController {
     const updateData = req.body;
 
     try {
-      const watch = await Watch.findByIdAndUpdate(id, updateData, { new: true });
+      const watch = await Watch.findByIdAndUpdate(id, updateData, {
+        new: true,
+      });
       if (!watch) {
         return res.status(404).json({ message: "Watch not found" });
       }
@@ -135,12 +136,14 @@ class WatchController {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ message: "An error occurred while updating the watch" });
+      res
+        .status(500)
+        .json({ message: "An error occurred while updating the watch" });
     }
   }
 
-   // Delete a watch
-   static async deleteWatch(req, res) {
+  // Delete a watch
+  static async deleteWatch(req, res) {
     const { id } = req.params;
 
     try {
@@ -155,7 +158,51 @@ class WatchController {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ message: "An error occurred while deleting the watch" });
+      res
+        .status(500)
+        .json({ message: "An error occurred while deleting the watch" });
+    }
+  }
+
+  //get watch by name
+  static async getWatchByName(req, res) {
+    let key = req.params.key.trim().toLowerCase();
+    let data = await Watch.find({ 
+      "$or": [
+        {watchName:{$regex: new RegExp(key), $options: 'i'}},
+      ]
+    });
+    if (data.length === 0) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "No watch found",
+      });
+    }
+    res.status(200).json({
+      statusCode: 200,
+      message: "get watch successfully",
+      data: data,
+    });
+  }
+
+  //get watch by brand 
+  static async getWatchByBrandId(req, res) {
+    const { id } = req.params;
+    try {
+      const watches = await Watch.find({ brand: id });
+      if (!watches || watches.length === 0) {
+        return res.status(404).json({ message: "No watches found for this brand" });
+      }
+      res.status(200).json({
+        statusCode: 200,
+        message: "get watches by brand successfully",
+        data: watches,
+      });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ message: "An error occurred while fetching the watches" });
     }
   }
 }

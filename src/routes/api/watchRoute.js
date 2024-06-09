@@ -5,7 +5,20 @@ import { isAdmin } from "../../middleware/authen.js";
 const watchRouter = express.Router();
 
 //GET all watches
-watchRouter.get("/api/watch", authenticateToken, WatchController.getWatches);
+watchRouter.get("/api/watch", WatchController.getWatches);
+
+//get watch by name
+watchRouter.get(
+  "/api/watch/search/:key",
+  WatchController.getWatchByName
+);
+
+//filter watch by brand
+watchRouter.get(
+  "/api/watch/brand/:id",
+  WatchController.getWatchByBrandId
+);
+
 //get watch by id
 watchRouter.get(
   "/api/watch/:id", 
