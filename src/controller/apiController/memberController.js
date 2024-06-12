@@ -5,7 +5,7 @@ class MemberController {
   //get all members
   static async getMembers(req, res) {
     try {
-      if (req.member.isAdmin !== true) {
+      if (req.user.isAdmin === false) {
         return res.status(403).json({ message: "Unauthorized" });
       }
       const membersList = await members.find({ isAdmin: false });

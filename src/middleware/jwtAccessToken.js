@@ -21,7 +21,8 @@ export function verifyToken(token) {
 
 export function signAccessToken(id) {
   return new Promise((resolve, reject) => {
-    const payload = {};
+    const payload = {
+    };
     const secret = process.env.ACCESS_TOKEN_SECRET;
     const options = {
       expiresIn: "7d",
