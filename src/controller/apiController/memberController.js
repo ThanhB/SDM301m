@@ -58,12 +58,16 @@ class MemberController {
       if (!member) {
         return res.status(404).json({ message: "Member not found" });
       }
-
-      const hashedPassword = await bcrypt.hash(password, 10);
-      member.membername = membername;
-      member.password = hashedPassword;
-      member.name = name;
-      member.YOB = YOB;
+      
+      if (password) {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        member.password = hashedPassword;
+      }
+  
+      if (membername) member.membername = membername;
+      if (name) member.name = name;
+      if (YOB) member.YOB = YOB;
+  
 
       await member.save();
       res.status(200).json({
