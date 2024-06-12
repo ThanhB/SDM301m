@@ -191,7 +191,7 @@ class WatchController {
     try {
       const watches = await Watch.find({ brand: id });
       if (!watches || watches.length === 0) {
-        return res.status(404).json({ message: "No watches found for this brand" });
+        return res.status(404).json({ status: 404 ,message: "No watches found for this brand" });
       }
       res.status(200).json({
         statusCode: 200,

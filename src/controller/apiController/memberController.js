@@ -46,13 +46,11 @@ class MemberController {
   //edit member
   static async editMember(req, res) {
     const { membername, password, name, YOB } = req.body;
-    const { id } = req.params;
+    const id = req.params.id;
+    const userid = req.user.aud;
 
-    //kiem tra co phai la nguoi dung hien tai khong
-    if (req.user.id !== id) {
-      return res
-        .status(403)
-        .json({ message: "You can only edit your own information" });
+    if(userid !== id){
+      return res.status(403).json({ message: "Unauthorized" });
     }
 
     try {
@@ -61,7 +59,6 @@ class MemberController {
         return res.status(404).json({ message: "Member not found" });
       }
 
-      
       const hashedPassword = await bcrypt.hash(password, 10);
       member.membername = membername;
       member.password = hashedPassword;

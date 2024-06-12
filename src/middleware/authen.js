@@ -10,4 +10,3 @@ export const isAdmin =(req, res, next) => {
     }
   }
 
-// Middleware to check if the user is authenticated

@@ -60,9 +60,6 @@ class BrandController {
     const { id } = req.params;
     try {
       const brand = await brandSchema.findById(id).select("-__v");
-      if (!brand) {
-        return res.status(404).json({ message: "Brand not found" });
-      }
       res
         .status(200)
         .json({
@@ -75,6 +72,56 @@ class BrandController {
       res
         .status(500)
         .json({ message: "An error occurred while fetching the brand" });
+    }
+  }
+
+  //update brand
+  static async editBrand(req, res) {
+    const { brandName } = req.body;
+    const { id } = req.params;
+
+    try {
+      const brand = await brandSchema.findById(id);
+      if (!brand) {
+        return res.status(404).json({ message: "Brand not found" });
+      }
+
+      brand.brandName = brandName;
+
+      await brand.save();
+      res
+        .status(200)
+        .json({
+          statusCode: 200,
+          message: "Brand updated successfully",
+          data: brand,
+        });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ message: "An error occurred while updating the brand" });
+    }
+  }
+
+  //delete brand
+  static async deleteBrand(req, res) {
+    const { id } = req.params;
+
+    try {
+      const brand = await brandSchema.findByIdAndDelete(id);
+      res
+        .status(200)
+        .json({
+          statusCode: 200,
+          message: "Brand deleted successfully",
+          data: brand,
+        });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ message: "An error occurred while deleting the brand" });
     }
   }
 }

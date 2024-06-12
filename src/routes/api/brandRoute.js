@@ -5,7 +5,7 @@ import { isAdmin } from "../../middleware/authen.js";
 const brandRoute = express.Router();
 
 //get all brands
-brandRoute.get("/api/brand", authenticateToken, BrandController.getBrands);
+brandRoute.get("/api/brand",BrandController.getBrands);
 
 //get brand by id
 brandRoute.get(
