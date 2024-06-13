@@ -14,4 +14,7 @@ memberRoute.get("/api/accounts/:id", authenticateToken, MemberController.getMemb
 //edit account
 memberRoute.put("/api/accounts/:id", authenticateToken, MemberController.editMember);
 
+//change password
+memberRoute.put("/api/accounts/password/:id", authenticateToken, MemberController.changePassword);
+
 export default memberRoute;

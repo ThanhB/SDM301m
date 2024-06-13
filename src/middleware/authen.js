@@ -14,15 +14,12 @@ export const isAdmin = (req, res, next) => {
       }
       // Fetch the member from the database
       const member = await members.findById(id);
-      console.log("check member", member);
       if (!member) {
         console.log("User not found in database");
         return res.sendStatus(404);
       }
 
       req.user = member;
-
-      console.log("check user", member.isAdmin);
       if (member.isAdmin === true) {
         next(); // pass the control to the next handler
       } else {

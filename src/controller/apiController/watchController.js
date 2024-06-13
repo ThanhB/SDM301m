@@ -47,6 +47,7 @@ class WatchController {
     ) {
       return res.status(400).json({ message: "Invalid input types" });
     }
+
     if (!watchName || !image || !price || !watchDescription || !brand) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -86,7 +87,7 @@ class WatchController {
         brand: new mongoose.Types.ObjectId(brandId), // Use the brandId here
       });
 
-      res.status(201).json({ message: "Watch added successfully" });
+      res.status(200).json({ status: 200 ,message: "Watch added successfully", data: watch});
     } catch (err) {
       console.error(err);
       res
@@ -125,9 +126,6 @@ class WatchController {
       const watch = await Watch.findByIdAndUpdate(id, updateData, {
         new: true,
       });
-      if (!watch) {
-        return res.status(404).json({ message: "Watch not found" });
-      }
 
       res.status(200).json({
         statusCode: 200,

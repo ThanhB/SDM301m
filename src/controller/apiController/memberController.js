@@ -45,12 +45,14 @@ class MemberController {
 
   //edit member
   static async editMember(req, res) {
-    const { membername, password, name, YOB } = req.body;
+    const { membername, name, YOB } = req.body;
     const id = req.params.id;
     const userid = req.user.aud;
 
-    if(userid !== id){
-      return res.status(403).json({ message: "Unauthorized" });
+    if (userid !== id) {
+      return res
+        .status(403)
+        .json({ message: "You can not edit your user information" });
     }
 
     try {
@@ -58,16 +60,10 @@ class MemberController {
       if (!member) {
         return res.status(404).json({ message: "Member not found" });
       }
-      
-      if (password) {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        member.password = hashedPassword;
-      }
-  
+
       if (membername) member.membername = membername;
       if (name) member.name = name;
       if (YOB) member.YOB = YOB;
-  
 
       await member.save();
       res.status(200).json({
@@ -80,6 +76,33 @@ class MemberController {
       res
         .status(500)
         .json({ message: "An error occurred while editing the member" });
+    }
+  }
+
+  // change member password
+  static async changePassword(req, res) {
+    const { oldPassword, newPassword } = req.body;
+
+    try {
+      const member = await members.findById(id);
+      const validPassword = await bcrypt.compare(oldPassword, member.password);
+      if (!validPassword) {
+        return res.status(400).json({ message: "Incorrect old password" });
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      member.password = hashedPassword;
+
+      await member.save();
+      res.status(200).json({
+        statusCode: 200,
+        message: "Password changed successfully",
+      });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ message: "An error occurred while changing the password" });
     }
   }
 }
