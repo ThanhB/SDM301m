@@ -1,18 +1,15 @@
 import brandSchema from "../../models/brand.js";
-
+import Watch from "../../models/watcheschema.js";
 class BrandController {
-
   //get brands
   static async getBrands(req, res) {
     try {
       const brands = await brandSchema.find({}).select("-__v");
-      res
-        .status(200)
-        .json({
-          statusCode: 200,
-          message: "get brand successfully",
-          data: brands,
-        });
+      res.status(200).json({
+        statusCode: 200,
+        message: "get brand successfully",
+        data: brands,
+      });
     } catch (err) {
       console.error(err);
       res
@@ -40,13 +37,11 @@ class BrandController {
         return res.status(400).json({ message: "Brand already exists" });
       }
       const brand = await brandSchema.create({ brandName });
-      res
-        .status(201)
-        .json({
-          statusCode: 201,
-          message: "Brand created successfully",
-          data: brand,
-        });
+      res.status(201).json({
+        statusCode: 201,
+        message: "Brand created successfully",
+        data: brand,
+      });
     } catch (err) {
       console.error(err);
       res
@@ -55,18 +50,16 @@ class BrandController {
     }
   }
 
-  //get brand by id 
+  //get brand by id
   static async getBrandById(req, res) {
     const { id } = req.params;
     try {
       const brand = await brandSchema.findById(id).select("-__v");
-      res
-        .status(200)
-        .json({
-          statusCode: 200,
-          message: "get brand by id successfully",
-          data: brand,
-        });
+      res.status(200).json({
+        statusCode: 200,
+        message: "get brand by id successfully",
+        data: brand,
+      });
     } catch (err) {
       console.error(err);
       res
@@ -76,26 +69,19 @@ class BrandController {
   }
 
   //update brand
-  static async editBrand(req, res) {
-    const { brandName } = req.body;
+  static async updateBrand(req, res) {
+    const updateData = req.body;
     const { id } = req.params;
 
     try {
-      const brand = await brandSchema.findById(id);
-      if (!brand) {
-        return res.status(404).json({ message: "Brand not found" });
-      }
-
-      brand.brandName = brandName;
-
-      await brand.save();
-      res
-        .status(200)
-        .json({
-          statusCode: 200,
-          message: "Brand updated successfully",
-          data: brand,
-        });
+      const brand = await brandSchema.findByIdAndUpdate(id, updateData, {
+        new: true,
+      });
+      res.status(200).json({
+        statusCode: 200,
+        message: "Brand updated successfully",
+        data: brand,
+      });
     } catch (err) {
       console.error(err);
       res
@@ -109,14 +95,20 @@ class BrandController {
     const { id } = req.params;
 
     try {
-      const brand = await brandSchema.findByIdAndDelete(id);
-      res
-        .status(200)
-        .json({
-          statusCode: 200,
-          message: "Brand deleted successfully",
-          data: brand,
+      //check if brand has associated watches
+      const watch = await Watch.findOne({ brand: id });
+      if (watch) {
+        return res.status(400).json({
+          message: "This brand has associated watches, you can't delete it",
         });
+      }
+
+      const brand = await brandSchema.findByIdAndDelete(id);
+      res.status(200).json({
+        statusCode: 200,
+        message: "Brand deleted successfully",
+        data: brand,
+      });
     } catch (err) {
       console.error(err);
       res

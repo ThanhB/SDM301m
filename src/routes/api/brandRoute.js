@@ -21,4 +21,20 @@ brandRoute.post(
   BrandController.createBrand
 );
 
+//update brand
+brandRoute.put(
+  "/api/update-brand/:id",
+  isAdmin,
+  authenticateToken,
+  BrandController.updateBrand
+);
+
+//delete brand
+brandRoute.delete(
+  "/api/delete-brand/:id",
+  isAdmin,
+  authenticateToken,
+  BrandController.deleteBrand
+);
+
 export default brandRoute;
