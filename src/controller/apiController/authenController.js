@@ -49,11 +49,6 @@ class AuthenController {
       }
 
       const token = await signAccessToken(member._id.toString());
-      // luu token trong cookie
-      res.cookie('accessToken', token, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000 
-      });
       res.setHeader("Authorization", "Bearer " + token);
       res.status(200).json({
         statusCode: 200,

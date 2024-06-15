@@ -82,12 +82,12 @@ class MemberController {
   // change member password
   static async changePassword(req, res) {
     const { oldPassword, newPassword } = req.body;
-
+    const { id } = req.params;
     try {
       const member = await members.findById(id);
       const validPassword = await bcrypt.compare(oldPassword, member.password);
       if (!validPassword) {
-        return res.status(400).json({ message: "Incorrect old password" });
+        return res.status(400).json({ message: "Incorrect password" });
       }
 
       const hashedPassword = await bcrypt.hash(newPassword, 10);
