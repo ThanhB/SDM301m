@@ -11,7 +11,6 @@ class WatchController {
         message: "get watch successfully",
         data: data,
       });
-      console.log("get watch successfully");
     } catch (err) {
       console.error(err);
       res

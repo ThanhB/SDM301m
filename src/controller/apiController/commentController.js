@@ -2,6 +2,9 @@ import commentSchema from "../../models/comment.js";
 import members from "../../models/members.js";
 import watches from "../../models/watcheschema.js";
 class commentController {
+  //get all comments
+
+  //add comment
   static async createComment(req, res) {
     const { rating, content, authorId, watchId } = req.body;
     
