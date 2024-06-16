@@ -13,6 +13,12 @@ watchRouter.get(
   WatchController.getWatchByName
 );
 
+//get comments by watch id
+watchRouter.get(
+  "/api/watch/comment/:id",
+  WatchController.getCommentByWatchId
+);
+
 //filter watch by brand
 watchRouter.get(
   "/api/watch/brand/:id",

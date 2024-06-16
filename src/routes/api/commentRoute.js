@@ -4,6 +4,6 @@ import commentController from "../../controller/apiController/commentController.
 
 const commentRoute = express.Router();
 
-commentRoute.post("/api/comment", authenticateToken, commentController.createComment);
+commentRoute.post("/api/watch/comment/:id", authenticateToken, commentController.createComment);
 
 export default commentRoute;

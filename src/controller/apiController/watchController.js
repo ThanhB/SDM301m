@@ -1,6 +1,8 @@
 import Watch from "../../models/watcheschema.js";
 import brandSchema from "../../models/brand.js";
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
+import members from "../../models/members.js";
+
 class WatchController {
   //get all watch
   static async getWatches(req, res) {
@@ -86,7 +88,13 @@ class WatchController {
         brand: new mongoose.Types.ObjectId(brandId), // Use the brandId here
       });
 
-      res.status(200).json({ status: 200 ,message: "Watch added successfully", data: watch});
+      res
+        .status(200)
+        .json({
+          status: 200,
+          message: "Watch added successfully",
+          data: watch,
+        });
     } catch (err) {
       console.error(err);
       res
@@ -164,10 +172,8 @@ class WatchController {
   //get watch by name
   static async getWatchByName(req, res) {
     let key = req.params.key.trim().toLowerCase();
-    let data = await Watch.find({ 
-      "$or": [
-        {watchName:{$regex: new RegExp(key), $options: 'i'}},
-      ]
+    let data = await Watch.find({
+      $or: [{ watchName: { $regex: new RegExp(key), $options: "i" } }],
     });
     if (data.length === 0) {
       return res.status(404).json({
@@ -182,13 +188,15 @@ class WatchController {
     });
   }
 
-  //get watch by brand 
+  //get watch by brand
   static async getWatchByBrandId(req, res) {
     const { id } = req.params;
     try {
       const watches = await Watch.find({ brand: id });
       if (!watches || watches.length === 0) {
-        return res.status(404).json({ status: 404 ,message: "No watches found for this brand" });
+        return res
+          .status(404)
+          .json({ status: 404, message: "No watches found for this brand" });
       }
       res.status(200).json({
         statusCode: 200,
@@ -200,6 +208,41 @@ class WatchController {
       res
         .status(500)
         .json({ message: "An error occurred while fetching the watches" });
+    }
+  }
+
+  //get comment by watch id
+  //get comment by watch id
+  static async getCommentByWatchId(req, res) {
+    const { id } = req.params;
+    try {
+      const watch = await Watch.findById(id).populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          model: members, 
+          select: "membername", // only select the 'membername' field
+        },
+      });
+      if (!watch) {
+        return res.status(404).json({ message: "Watch not found" });
+      }
+      // map over the comments to return only the required fields
+      const comments = watch.comments.map((comment) => ({
+        author: comment.author.membername,
+        rating: comment.rating,
+        content: comment.content,
+      }));
+      res.status(200).json({
+        statusCode: 200,
+        message: "get comment by watch id successfully",
+        data: comments,
+      });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ message: "An error occurred while fetching the comments" });
     }
   }
 }
