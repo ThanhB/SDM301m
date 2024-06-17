@@ -19,7 +19,7 @@ class commentController {
       const member = await members.findById(userid);
       //check if the member is an admin
       if (member.isAdmin === true) {
-        return res.status(403).json({ message: "Admin can't leave a" });
+        return res.status(403).json({ message: "Admin can't leave a feedback" });
       }
       //check if memeber is exist
       if (!member) {
@@ -34,8 +34,6 @@ class commentController {
 
       // Check if the member has already commented on this watch
       const existingComment = watch.comments.find(comment => comment.author.toString() === member._id.toString());
-
-      console.log("comment", existingComment);
       if (existingComment) {
         return res
           .status(400)
