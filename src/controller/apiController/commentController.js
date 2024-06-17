@@ -33,11 +33,9 @@ class commentController {
       }
 
       // Check if the member has already commented on this watch
-      const existingComment = await Comment.findOne({
-        author: member._id,
-        watch: watch._id,
-      });
+      const existingComment = watch.comments.find(comment => comment.author.toString() === member._id.toString());
 
+      console.log("comment", existingComment);
       if (existingComment) {
         return res
           .status(400)

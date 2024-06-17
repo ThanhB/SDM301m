@@ -212,7 +212,6 @@ class WatchController {
   }
 
   //get comment by watch id
-  //get comment by watch id
   static async getCommentByWatchId(req, res) {
     const { id } = req.params;
     try {
@@ -245,6 +244,7 @@ class WatchController {
         .json({ message: "An error occurred while fetching the comments" });
     }
   }
+
 }
 
 export default WatchController;
