@@ -13,8 +13,16 @@ const hostname = process.env.HOST_NAME;
 //config template engine
 configVewEngine(app);
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+
+//static file
+app.use(express.static("public"));
+app.use("/css", express.static("dist"));
+
 // Declare routes
-app.use("/", webRoute);
+app.use(webRoute);
 
 // handle 404 - keep this as your last route
 app.use(function (req, res, next) {

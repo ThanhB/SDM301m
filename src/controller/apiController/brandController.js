@@ -107,7 +107,6 @@ class BrandController {
       res.status(200).json({
         statusCode: 200,
         message: "Brand deleted successfully",
-        data: brand,
       });
     } catch (err) {
       console.error(err);

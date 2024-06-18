@@ -1,11 +1,11 @@
 import express from 'express';
-import { getHomePage, getABC } from '../controller/webController/homeController.js';
+import authenWebRouter from "./web/authenRoute.js";
 
 const app = express.Router();
 
 //public route
-app.get('/', getHomePage)
-app.get('/abc', getABC)
+app.use(authenWebRouter);
+
 
 //private route
 export default app;
