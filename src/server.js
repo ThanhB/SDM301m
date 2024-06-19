@@ -5,6 +5,7 @@ import express from "express";
 import configVewEngine from "./config/viewEngine.js";
 import webRoute from "./routes/web.js";
 import connectDB from "./db/db.js";
+import cookieParser from 'cookie-parser';
 const app = express();
 //config port
 const port = process.env.PORT || 8888;
@@ -15,7 +16,7 @@ configVewEngine(app);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
+app.use(cookieParser());
 
 //static file
 app.use(express.static("public"));

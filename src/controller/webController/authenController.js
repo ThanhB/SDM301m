@@ -40,7 +40,7 @@ class AuthenController {
 
         return check.isAdmin
           ? res.redirect("/admin/dashboard")
-          : res.redirect("/watches");
+          : res.redirect("/home");
       } else {
         return res.status(401).send("Wrong password");
       }

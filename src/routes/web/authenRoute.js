@@ -1,6 +1,5 @@
 import express from 'express';
 import AuthenController from "../../controller/webController/authenController.js";
-import { authenticateUser } from "../../middleware/jwtAccessToken.js";
 
 const authenWebRouter = express.Router();
 
@@ -10,6 +9,6 @@ authenWebRouter.route("/").get(AuthenController.signin).post(AuthenController.si
 //render register page
 authenWebRouter.route("/signup").get(AuthenController.signup).post(AuthenController.register);
 
-
+authenWebRouter.route("/logout").get(AuthenController.logout);
 //render register page
 export default authenWebRouter;

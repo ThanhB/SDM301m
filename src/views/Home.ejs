@@ -4,72 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Watch Store VN</title>
-    <link rel="stylesheet" href="/css/style.css">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Include Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100">
     <%- include('./layouts/header') %>
-    <div class="container mt-5">
-        <h1 class="text-center">Watches</h1>
+    <div class="container mx-auto mt-5 px-4">
+        <h1 class="text-center text-3xl font-bold mb-4">Watches</h1>
         <!-- Search and Filter Form -->
-        <form id="searchForm" class="mb-4" method="GET" action="/watches">
-          <div class="container">
-          <div class="row">
-            <div class="col-sm">
+        <form id="searchForm" class="mb-4" method="GET" action="/home">
+          <div class="flex flex-wrap -mx-3">
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <input
                 type="text"
                 id="searchInput"
                 name="query"
-                class="form-control"
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 placeholder="Search for watches..."
                 value="<%= typeof query !== 'undefined' ? query : '' %>"
               />
             </div>
-            <div class="col-sm">
-              <select id="brandFilter" name="brand" class="form-control">
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+              <select id="brandFilter" name="brand" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 <option value="">All Brands</option>
                 <!-- Loop through your brands and create options -->
                 <% brands.forEach(brand => { %>
-                <option value="<%= brand._id %>" <%= brand._id.toString() === selectedBrand ? 'selected' : '' %>><%= brand.brandname %></option>
+                <option value="<%= brand._id %>" <%= brand._id.toString() === selectedBrand ? 'selected' : '' %>><%= brand.brandName %></option>
                 <% }); %>
               </select>
             </div>
-            <div class="col-sm">
-              <button type="submit" class="btn btn-primary ">Search</button>
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+              <button type="submit" class="w-full shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Search</button>
             </div>
           </div>
-        </div>
         </form>
-        <div class="row">
+        <div class="flex flex-wrap -mx-4">
           <!-- Loop through your watches and display them -->
           <% watches.forEach(watch => { %>
-          <div class="col-md-4 mb-4">
-            <div class="card">
-              <img
-                src="<%= watch.image %>"
-                class="card-img-top fixed-size-img"
-                alt="<%= watch.watchName %>"
-              />
-              <div class="card-body">
-                <div class="d-flex">
-                  <h5 class="card-title"><%= watch.watchName %></h5>
-                  <a href="/watches/<%= watch._id %>" class="text-info mx-1">
-                    <i class="fa-solid fa-circle-info"></i>
-                  </a>
+            <div class="w-full md:w-1/3 px-4 mb-4 h-full">
+              <div class="flex flex-col bg-white rounded-lg shadow-md overflow-hidden h-full">
+                <div class="w-full h-64 overflow-hidden">
+                  <img
+                    src="<%= watch.image %>"
+                    class="w-full h-full object-cover"
+                    alt="<%= watch.watchName %>"
+                  />
                 </div>
-                  <p class="card-text"><strong>Brand:</strong> <%= watch.brand.brandname %></p>
-                  <p class="card-text"><strong>Price:</strong> <%= watch.price %></p>          
-                <!-- Add more details you want to display -->
+                <div class="p-4 flex-grow">
+                  <h5 class="text-md font-bold mb-2"><%= watch.watchName %></h5>
+                  <p class="text-gray-700"><strong>Brand:</strong> <%= watch.brand.brandName %></p>
+                  <p class="text-gray-700"><strong>Price:</strong> <%= watch.price %></p>          
+                  <!-- Add more details you want to display -->
+                </div>
               </div>
             </div>
-          </div>
           <% }); %>
         </div>
       </div>
     <%- include('./layouts/Footler') %>
-    <!-- Include Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>
