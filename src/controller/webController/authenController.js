@@ -12,38 +12,29 @@ class AuthenController {
     const { membername, password } = req.body;
     try {
       const check = await members.findOne({ membername });
-      if (!check) {
-        return res.status(404).send("Username cannot be found");
+      const isPasswordMatch = check ? await bcrypt.compare(password, check.password) : false;
+      if (!check || !isPasswordMatch) {
+        return res.render("signin", { error: "Invalid username or password" });
       }
-      const isPasswordMatch = await bcrypt.compare(
-        req.body.password,
-        check.password
+      const key = process.env.ACCESS_TOKEN_SECRET;
+      if (!key) {
+        console.error("ACCESS_TOKEN_SECRET is not set.");
+        return res.status(500).send("Internal server error");
+      }
+      const token = jsonwebtoken.sign(
+        {
+          memberId: check._id,
+          membername: check.membername,
+          isAdmin: check.isAdmin,
+        },
+        key,
+        { expiresIn: "1h" }
       );
-      if (isPasswordMatch) {
-        const key = process.env.ACCESS_TOKEN_SECRET;
-        if (!key) {
-          console.error("ACCESS_TOKEN_SECRET is not set.");
-          return res.status(500).send("Internal server error");
-        }
-        const token = jsonwebtoken.sign(
-          {
-            memberId: check._id,
-            membername: check.membername,
-            isAdmin: check.isAdmin,
-          },
-          key,
-          { expiresIn: "1h" }
-        );
-        res.cookie("token", token, { httpOnly: true });
-        res.cookie("membername", check.membername, { httpOnly: true });
-        res.cookie("memberId", check._id.toString(), { httpOnly: true });
-
-        return check.isAdmin
-          ? res.redirect("/admin/dashboard")
-          : res.redirect("/home");
-      } else {
-        return res.status(401).send("Wrong password");
-      }
+      res.cookie("token", token, { httpOnly: true });
+      res.cookie("membername", check.membername, { httpOnly: true });
+      res.cookie("memberId", check._id.toString(), { httpOnly: true });
+      res.redirect("/");
+      // Redirect to the appropriate page
     } catch (error) {
       console.error("Login error:", error);
       return res.status(500).send("Internal server error");

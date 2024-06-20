@@ -4,7 +4,7 @@ import AuthenController from "../../controller/webController/authenController.js
 const authenWebRouter = express.Router();
 
 //render login page
-authenWebRouter.route("/").get(AuthenController.signin).post(AuthenController.signinSuccess);
+authenWebRouter.route("/login").get(AuthenController.signin).post(AuthenController.signinSuccess);
 
 //render register page
 authenWebRouter.route("/signup").get(AuthenController.signup).post(AuthenController.register);
