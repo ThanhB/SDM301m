@@ -1,140 +1,29 @@
 <%- include('./layouts/headerAdmin') %>
-
-<div class="container mx-auto py-20">
-  <h3 class="mb-12 text-3xl font-semibold">Dashboard</h3>
-
-  <!-- List Members -->
-  <h4 class="mb-8 text-2xl font-semibold">Members</h4>
-  <input
-    type="text"
-    id="memberFilter"
-    placeholder="Search for members.."
-    class="mb-4 px-4 py-2 border rounded"
-  />
-  <table class="table-auto w-full border-collapse border">
-    <thead>
-      <tr class="bg-gray-200">
-        <th class="border px-4 py-2">ID</th>
-        <th class="border px-4 py-2">Member Name</th>
-        <th class="border px-4 py-2">Name</th>
-        <th class="border px-4 py-2">YOB</th>
-        <th class="border px-4 py-2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% member.forEach(member => { %>
-      <tr>
-        <td class="border px-4 py-2"><%= member._id %></td>
-        <td class="border px-4 py-2"><%= member.membername %></td>
-        <td class="border px-4 py-2"><%= member.name %></td>
-        <td class="border px-4 py-2"><%= member.YOB %></td>
-        <td class="border px-4 py-2">
-          <a
-            href="/admin/dashboard/members/<%= member._id %>"
-            class="text-red-500 mx-1"
-          >
-            <i class="fas fa-trash-alt"></i>
-          </a>
-          <!-- Update Member Button -->
-          <a
-            href="/admin/dashboard/members/edit/<%= member._id %>?membername=<%= member.membername %>&name=<%= member.name %>&yob=<%= member.YOB %>"
-            class="text-blue-500 mx-1"
-          >
-            <i class="fas fa-edit"></i>
-          </a>
-        </td>
-      </tr>
-      <% }) %>
-    </tbody>
-  </table>
-
-  <!-- List Watches -->
-  <h4 class="mb-8 text-2xl font-semibold">Watches</h4>
-  <input
-    type="text"
-    id="watchFilter"
-    placeholder="Search for watches.."
-    class="mb-4 px-4 py-2 border rounded"
-  />
-  <table class="table-auto w-full border-collapse border">
-    <thead>
-      <tr class="bg-gray-200">
-        <th class="border px-4 py-2">ID</th>
-        <th class="border px-4 py-2">Watch Name</th>
-        <th class="border px-4 py-2">Image</th>
-        <th class="border px-4 py-2">Price</th>
-        <th class="border px-4 py-2">Brand</th>
-        <th class="border px-4 py-2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% watches.forEach(watch => { %>
-      <tr>
-        <td class="border px-4 py-2"><%= watch._id %></td>
-        <td class="border px-4 py-2"><%= watch.watchName %></td>
-        <td class="border px-4 py-2">
-          <img
-            src="<%= watch.image %>"
-            alt="<%= watch.watchName %>"
-            class="w-12"
-          />
-        </td>
-        <td class="border px-4 py-2"><%= watch.price %></td>
-        <td class="border px-4 py-2"><%= watch.brand %></td>
-        <td class="border px-4 py-2">
-          <a href="/admin/watches/<%= watch._id %>" class="text-red-500 mx-1">
-            <i class="fas fa-trash-alt"></i>
-          </a>
-          <!-- Update Watch Button -->
-          <a
-            href="/admin/watches/edit/<%= watch._id %>?watchname=<%= watch.watchName %>&image=<%= watch.image %>&price=<%= watch.price %>&brand=<%= watch.brand %>"
-            class="text-blue-500 mx-1"
-          >
-            <i class="fas fa-edit"></i>
-          </a>
-        </td>
-      </tr>
-      <% }) %>
-    </tbody>
-  </table>
-
-  <!-- List Brands -->
-  <h4 class="mb-8 text-2xl font-semibold">Brands</h4>
-  <input
-    type="text"
-    id="brandFilter"
-    placeholder="Search for brands.."
-    class="mb-4 px-4 py-2 border rounded"
-  />
-  <table class="table-auto w-full border-collapse border">
-    <thead>
-      <tr class="bg-gray-200">
-        <th class="border px-4 py-2">ID</th>
-        <th class="border px-4 py-2">Brand Name</th>
-        <th class="border px-4 py-2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% brands.forEach(brand => { %>
-      <tr>
-        <td class="border px-4 py-2"><%= brand._id %></td>
-        <td class="border px-4 py-2"><%= brand.brandName %></td>
-        <td class="border px-4 py-2">
-          <a href="/admin/brands/<%= brand._id %>" class="text-red-500 mx-1">
-            <i class="fas fa-trash-alt"></i>
-          </a>
-          <!-- Update Brand Button -->
-          <a
-            href="/admin/brands/edit/<%= brand._id %>?brandname=<%= brand.brandName %>"
-            class="text-blue-500 mx-1"
-          >
-            <i class="fas fa-edit"></i>
-          </a>
-        </td>
-      </tr>
-      <% }) %>
-    </tbody>
-  </table>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<div class="bg-gray-100">
+  <div class="container mx-auto py-20">
+    <!-- List Members -->
+    <h1 class="mb-8 text-2xl font-semibold">Members</h1>
+    <table class="table-auto w-full border-collapse border">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="border px-4 py-2">ID</th>
+          <th class="border px-4 py-2">Member Name</th>
+          <th class="border px-4 py-2">Name</th>
+          <th class="border px-4 py-2">YOB</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% member.forEach(member => { %>
+        <tr>
+          <td class="border px-4 py-2"><%= member._id %></td>
+          <td class="border px-4 py-2"><%= member.membername %></td>
+          <td class="border px-4 py-2"><%= member.name %></td>
+          <td class="border px-4 py-2"><%= member.YOB %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
 </div>
-
 <%- include('./layouts/Footler') %>

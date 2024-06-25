@@ -144,6 +144,21 @@ class memberController {
       res.status(500).send("Server Error");
     }
   }
+
+   //dashboard
+   static async dashboard(req, res) {
+    const membername = req.cookies.membername || "Guest";
+    try {
+      const member = await members.find(); // Assuming you're fetching members to display
+
+      res.render("admin/dashboard", {
+        membername,
+        member,
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to load dashboard", error });
+    }
+  }
 }
 
 export default memberController;

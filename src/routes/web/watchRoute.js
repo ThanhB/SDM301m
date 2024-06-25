@@ -24,13 +24,27 @@ watchWebRouter.post(
   commentController.createComment
 );
 
-// Dashboard routes
 watchWebRouter.get(
-  "/admin/dashboard",
+  "/admin/watches",
   checkTokenExpirationMiddleware,
   webAuthenticateToken,
   isAdminWeb,
-  WatchController.dashboard
+  WatchController.watchPage
 );
+
+watchWebRouter
+  .get(
+    "/admin/watches/create",
+    checkTokenExpirationMiddleware,
+    webAuthenticateToken,
+    isAdminWeb,
+    WatchController.createwatchPage
+  )
+  .post(
+    checkTokenExpirationMiddleware,
+    webAuthenticateToken,
+    isAdminWeb,
+    WatchController.createwatch
+  );
 
 export default watchWebRouter;

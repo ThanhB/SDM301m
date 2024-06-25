@@ -115,6 +115,12 @@ class WatchController {
     const membername = req.cookies.membername || "Guest";
     res.render("watchesCreate", { membername });
   }
+  //create watch page
+  static async createwatchPage(req, res) {
+    const membername = req.cookies.membername || "Guest";
+    const brands = await Brand.find();
+    res.render("watchesCreate", { membername, brands });
+  }
 
   //create watch
   static async createwatch(req, res) {
@@ -145,13 +151,12 @@ class WatchController {
       });
 
       const savedWatch = await newWatch.save();
-      res.redirect("/admin/watches");
+      // Render the watchesCreate.ejs with a success message
     } catch (error) {
       console.error("Error creating watch:", error);
       res.status(500).json({ error: "Server error" });
     }
   }
-
   //delete watch
   static async deletewatch(req, res) {
     try {
@@ -171,19 +176,15 @@ class WatchController {
     res.render("editWatches", { watch, membername });
   }
 
-  //dashboard
-  static async dashboard(req, res) {
+  //admin watch page
+  static async watchPage(req, res) {
     const membername = req.cookies.membername || "Guest";
     try {
-      const member = await members.find(); // Assuming you're fetching members to display
-      const watches = await Watch.find(); // Assuming you're fetching watches to display
-      const brands = await Brand.find(); // Assuming you're fetching brands to display
+      const watch = await Watch.find(); // Assuming you're fetching members to display
 
-      res.render("admin/dashboard", {
+      res.render("adminWatchPage", {
         membername,
-        member,
-        watches,
-        brands,
+        watch,
       });
     } catch (error) {
       res.status(500).json({ message: "Failed to load dashboard", error });

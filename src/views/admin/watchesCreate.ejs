@@ -1,88 +1,116 @@
-<%- include('layout/headerAdmin') %>
-<div class="container mt-5">
-  <h1 class="text-center mt-5">Add New Watch</h1>
-  <form
-    action="/admin/watches"
-    method="POST"
-    class="needs-validation"
-    novalidate
-  >
-    <div class="form-row">
-      <div class="col-md-6 mb-3">
-        <label for="watchName">Watch Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="watchName"
-          name="watchName"
-          required
-        />
-        <div class="invalid-feedback">Please provide a watch name.</div>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="image">Image URL</label>
-        <input
-          type="url"
-          class="form-control"
-          id="image"
-          name="image"
-          required
-        />
-        <div class="invalid-feedback">Please provide a valid image URL.</div>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="col-md-6 mb-3">
-        <label for="price">Price</label>
-        <input
-          type="number"
-          class="form-control"
-          id="price"
-          name="price"
-          min="0"
-          required
-        />
-        <div class="invalid-feedback">Please provide a price.</div>
-      </div>
-      <div class="col-md-6 mb-3">
-        <div class="form-check">
+<%- include('./layouts/headerAdmin') %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<div class="bg-gray-100">
+  <div class="container mx-auto py-10">
+    <h1 class="text-center text-4xl mt-20">Add New Watch</h1>
+    <form action="/admin/watches" method="POST" class="space-y-6" novalidate>
+      <div class="flex flex-wrap flex-col -mx-3 mb-6">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label
+            for="watchName"
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >Watch Name</label
+          >
           <input
-            type="checkbox"
-            class="form-check-input"
-            id="Automatic"
-            name="Automatic"
+            type="text"
+            class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            id="watchName"
+            name="watchName"
+            required
           />
-          <label class="form-check-label" for="Automatic">Automatic</label>
+          <p class="text-red-500 text-xs italic">
+            Please provide a watch name.
+          </p>
+        </div>
+        <div class="w-full md:w-1/2 px-3">
+          <label
+            for="image"
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >Image URL</label
+          >
+          <input
+            type="url"
+            class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            id="image"
+            name="image"
+            required
+          />
+          <p class="text-red-500 text-xs italic">
+            Please provide a valid image URL.
+          </p>
         </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="col-md-12 mb-3">
-        <label for="watchDescription">Description</label>
-        <textarea
-          class="form-control"
-          id="watchDescription"
-          name="watchDescription"
-          rows="3"
-          required
-        ></textarea>
-        <div class="invalid-feedback">Please provide a description.</div>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label
+            for="price"
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >Price</label
+          >
+          <input
+            type="number"
+            class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            id="price"
+            name="price"
+            min="0"
+            required
+          />
+          <p class="text-red-500 text-xs italic">Please provide a price.</p>
+        </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="col-md-6 mb-3">
-        <label for="brand">Brand ID</label>
-        <input
-          type="text"
-          class="form-control"
-          id="brand"
-          name="brand"
-          required
-        />
-        <div class="invalid-feedback">Please provide a brand ID.</div>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full md:w-1/2 px-3">
+          <div class="md:flex md:items-center">
+            <label class="md:w-2/3 block text-gray-500 font-bold">
+              <input
+                class="mr-2 leading-tight"
+                type="checkbox"
+                id="Automatic"
+                name="Automatic"
+              />
+              <span class="text-sm">Automatic</span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
-    <button class="btn btn-primary" type="submit">Add Watch</button>
-  </form>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+          <label
+            for="watchDescription"
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >Description</label
+          >
+          <textarea
+            class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            id="watchDescription"
+            name="watchDescription"
+            rows="3"
+            required
+          ></textarea>
+          <p class="text-red-500 text-xs italic">
+            Please provide a description.
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full md:w-1/2 px-3">
+          <label
+            for="brand"
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >Brand ID</label
+          >
+          <input
+            type="text"
+            class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            id="brand"
+            name="brand"
+            required
+          />
+          <p class="text-red-500 text-xs italic">Please provide a brand ID.</p>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit">Add Watch</button>
+    </form>
+  </div>
 </div>
-<%- include('layout/footer') %>
+<%- include('./layouts/Footler') %>

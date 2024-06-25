@@ -3,72 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="content=width=device-width, initial-scale=1.0" />
-  <title>FPT</title>
+  <title>Admin</title>
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    .hero {
-      background: url("https://www.bartonwatchbands.com/cdn/shop/articles/Most_popular_luxury_watches.jpg?v=1686944605") no-repeat center center;
-      background-size: cover;
-      color: white;
-      text-align: center;
-      padding: 100px 0;
+  <script>
+    // Function to toggle the dropdown
+    function toggleDropdown() {
+      const dropdown = document.getElementById('dropdown');
+      dropdown.classList.toggle('hidden');
     }
-    .hero h1 {
-      font-size: 3rem;
-    }
-    .hero p {
-      font-size: 1.5rem;
-    }
-    .rating {
-      display: inline-block;
-      unicode-bidi: bidi-override;
-      color: #f7d620;
-      font-size: 20px;
-    }
-    .rating > span {
-      display: inline-block;
-      position: relative;
-      width: 1.1em;
-    }
-    .rating > span:hover:before,
-    .rating > span:hover ~ span:before {
-      content: "\2605";
-      position: absolute;
-      color: #f7d620;
-    }
-  </style>
+  </script>
 </head>
 <body>
-  <nav class="bg-light py-2">
-    <div class="container mx-auto flex flex-wrap items-center justify-between">
-      <a href="/admin/watches" class="flex items-center">
-        <img src="https://s3.hn-1.cloud.cmctelecom.vn/galle-media/upload_images/images/2021/09/01/5-logo-longines.jpg" class="w-16 h-16 mr-3" />
-        ROLEX
-      </a>
-      <div class="block lg:hidden">
-        <button class="text-black focus:outline-none">
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
-        </button>
-      </div>
-      <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden  mt-2 lg:mt-0 bg-light lg:bg-transparent text-lg" id="my-nav">
+  <nav class="bg-green-600 py-2">
+    <div class="container mx-auto flex flex-wrap items-center ">
+      <a href="/admin/dashboard" class="text-2xl font-bold text-white">Watchvn</a>
+      <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 bg-green-600 lg:bg-transparent text-lg" id="my-nav">
         <ul class="list-reset lg:flex justify-end flex-1 items-center">
           <li class="mr-3">
-            <a class="inline-block py-2 px-4 text-black font-bold no-underline" href="/admin/dashboard"><i class="fas fa-table-columns"></i> Dashboard</a>
+            <a class="inline-block text-white no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="/admin/watches"><i class="fas fa-clock"></i> Watches</a>
           </li>
           <li class="mr-3">
-            <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="/admin/watches"><i class="fas fa-clock"></i> Watches</a>
+            <a class="inline-block text-white no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="/admin/brands"><i class="fas fa-globe me-1"></i> Brands</a>
           </li>
-          <li class="mr-3">
-            <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="/admin/brands"><i class="fas fa-globe me-1"></i> Brands</a>
-          </li>
-          <li class="mr-3">
-            <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"><i class="fas fa-user"></i> <%= membername %></a>
-          </li>
-          <li class="mr-3">
-            <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="/logout"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+          <li class="mr-3 relative">
+            <a onclick="toggleDropdown()" class="inline-block text-white no-underline hover:text-gray-800 hover:text-underline py-2 px-4 cursor-pointer"><i class="fas fa-user"></i> <%= membername %></a>
+            <div id="dropdown" class="absolute hidden bg-white shadow-md mt-2">
+              <a href="/userprofile" class="block px-4 py-2 text-black hover:bg-gray-200">Profile</a>
+              <a href="/" class="block px-4 py-2 text-black hover:bg-gray-200">Shop</a>
+              <a href="/logout" class="block px-4 py-2 text-black hover:bg-gray-200">Logout</a>
+            </div>
           </li>
         </ul>
       </div>
