@@ -28,7 +28,7 @@ class AuthenController {
           isAdmin: check.isAdmin,
         },
         key,
-        { expiresIn: "1h" }
+        { expiresIn: "7d" }
       );
       res.cookie("token", token, { httpOnly: true });
       res.cookie("membername", check.membername, { httpOnly: true });

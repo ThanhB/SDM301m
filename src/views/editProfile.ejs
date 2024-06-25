@@ -1,61 +1,82 @@
-<%- include('layout/headerAdmin') %>
+<%- include('./layouts/header') %>
+<div class="bg-gray-100 py-20">
+  <div class="container mx-auto">
+    <h1 class="mb-10 text-3xl font-bold">Edit Profile</h1>
+    <form action="/editProfile" method="POST" class="mb-20">
+      <div class="mb-6">
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900"
+          >Name:</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          id="name"
+          name="name"
+          value="<%= member.name %>"
+          required
+        />
+      </div>
+      <div class="mb-6">
+        <label for="YOB" class="block mb-2 text-sm font-medium text-gray-900"
+          >Year of Birth:</label
+        >
+        <input
+          type="text"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          id="YOB"
+          name="YOB"
+          value="<%= member.YOB %>"
+          required
+        />
+      </div>
 
-<div class="container mt-5">
-  <h1 class="mb-4">Edit Profile</h1>
-  <form action="/editProfile" method="POST" class="mb-5">
-    <div class="mb-3">
-      <label for="name" class="form-label">Name:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="name"
-        name="name"
-        value="<%= member.name %>"
-        required
-      />
-    </div>
+      <button
+        type="submit"
+        class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
+        Update Profile
+      </button>
+    </form>
 
-    <div class="mb-3">
-      <label for="YOB" class="form-label">Year of Birth:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="YOB"
-        name="YOB"
-        value="<%= member.YOB %>"
-        required
-      />
-    </div>
+    <h2 class="mb-10 text-3xl font-bold">Change Password</h2>
+    <form action="/changePassword" method="POST">
+      <div class="mb-6">
+        <label
+          for="currentPassword"
+          class="block mb-2 text-sm font-medium text-gray-900"
+          >Current Password:</label
+        >
+        <input
+          type="password"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          id="currentPassword"
+          name="currentPassword"
+          required
+        />
+      </div>
 
-    <button type="submit" class="btn btn-primary">Update Profile</button>
-  </form>
+      <div class="mb-6">
+        <label
+          for="newPassword"
+          class="block mb-2 text-sm font-medium text-gray-900"
+          >New Password:</label
+        >
+        <input
+          type="password"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          id="newPassword"
+          name="newPassword"
+          required
+        />
+      </div>
 
-  <h2 class="mb-4">Change Password</h2>
-  <form action="/changePassword" method="POST">
-    <div class="mb-3">
-      <label for="currentPassword" class="form-label">Current Password:</label>
-      <input
-        type="password"
-        class="form-control"
-        id="currentPassword"
-        name="currentPassword"
-        required
-      />
-    </div>
-
-    <div class="mb-3">
-      <label for="newPassword" class="form-label">New Password:</label>
-      <input
-        type="password"
-        class="form-control"
-        id="newPassword"
-        name="newPassword"
-        required
-      />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Change Password</button>
-  </form>
-
-  <%- include('layout/footer') %>
+      <button
+        type="submit"
+        class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
+        Change Password
+      </button>
+    </form>
+  </div>
 </div>
+<%- include('./layouts/Footler') %>

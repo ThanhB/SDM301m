@@ -1,66 +1,54 @@
 <%- include('./layouts/header') %>
-<h1>Profile Member</h1>
-<section class="vh-50" style="background-color: #f4f5f7">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-lg-6 mb-4 mb-lg-0">
-        <div class="card mb-3" style="border-radius: 0.5rem">
-          <div class="row g-0">
-            <div
-              class="col-md-4 gradient-custom text-center text-white"
-              style="
-                border-top-left-radius: 0.5rem;
-                border-bottom-left-radius: 0.5rem;
-              "
-            >
-              <img
-                src="https://i.pinimg.com/564x/1b/dd/65/1bdd654181279a6ecf6ff2b6cfce9fac.jpg"
-                alt="Avatar"
-                class="img-fluid my-5"
-                style="width: 80px"
-              />
-              <h5>Marie Horwitz</h5>
-              <p>Web Designer</p>
+<h1 class="text-3xl font-bold text-center my-5"><%= member.name %> Profile</h1>
+<section class=" bg-gray-100 py-20">
+  <div class="container mx-auto px-4 h-full">
+    <div class="flex justify-center items-center h-full">
+      <div class="w-full lg:w-3/4 mb-4"> <!-- Adjusted width here -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <div class="flex">
+            <div class="w-full md:w-1/3 bg-gradient-to-r from-blue-500 to-blue-700 text-white text-center p-4">
+              <img src="https://ih1.redbubble.net/image.5407575156.6953/flat,750x,075,f-pad,750x1000,f8f8f8.jpg" alt="Avatar" class="mx-auto rounded-full h-20 w-20 my-2">
+              <h5 class="text-lg"><%= member.membername %></h5>
+              <p class="text-sm">Web Designer</p>
               <i class="far fa-edit mb-5"></i>
             </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  <h6 class="mt-2">Information</h6>
-                  <a href="/editProfile" class="mx-5">Edit Profile</a>
+            <div class="w-full md:w-2/3">
+              <div class="p-4">
+                <div class="flex justify-between items-center">
+                  <h6 class="text-lg">Information</h6>
+                  <a href="/editProfile" class="text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out">Edit Profile</a>
                 </div>
 
-                <hr class="mt-0 mb-4" />
+                <hr class="my-4" />
                 <% if (member) { %>
-                <div class="row pt-1">
-                  <div class="col-6 mb-3">
-                    <h6>Username</h6>
-                    <p class="text-muted"><%= member.membername %></p>
+                <div class="flex flex-wrap -mx-2">
+                  <div class="w-1/2 px-2 mb-3">
+                    <h6 class="text-md">Username</h6>
+                    <p class="text-gray-600"><%= member.membername %></p>
                   </div>
-                  <div class="col-6 mb-3">
-                    <h6>Name</h6>
-                    <p class="text-muted"><%= member.name %></p>
+                  <div class="w-1/2 px-2 mb-3">
+                    <h6 class="text-md">Name</h6>
+                    <p class="text-gray-600"><%= member.name %></p>
                   </div>
-                  <div class="col-6 mb-3">
-                    <h6>Password</h6>
-                    <p class="text-muted"><%= member.password %></p>
+                  <div class="w-1/2 px-2 mb-3">
+                    <h6 class="text-md">Password</h6>
+                    <p class="text-gray-600">****</p>
                   </div>
                 </div>
-                <hr class="mt-0 mb-4" />
-                <div class="row pt-1">
-                  <div class="col-6 mb-3">
-                    <h6>Year of Birth</h6>
-                    <p class="text-muted"><%= member.YOB %></p>
+                <hr class="my-4" />
+                <div class="flex flex-wrap -mx-2">
+                  <div class="w-1/2 px-2 mb-3">
+                    <h6 class="text-md">Year of Birth</h6>
+                    <p class="text-gray-600"><%= member.YOB %></p>
                   </div>
                 </div>
                 <% } else { %>
                 <p>No member information available.</p>
-
                 <% } %>
-                <div class="d-flex justify-content-start">
-                  <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
-                  <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
-                  <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
+                <div class="flex">
+                  <a href="#!" class="text-blue-600 hover:text-blue-800 mr-3"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#!" class="text-blue-400 hover:text-blue-600 mr-3"><i class="fab fa-twitter"></i></a>
+                  <a href="#!" class="text-pink-600 hover:text-pink-800"><i class="fab fa-instagram"></i></a>
                 </div>
               </div>
             </div>
@@ -71,4 +59,4 @@
   </div>
 </section>
 
-<%- include('layout/footer') %>
+<%- include('./layouts/Footler') %> <!-- Corrected footer include statement -->

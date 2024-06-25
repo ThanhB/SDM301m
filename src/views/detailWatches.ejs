@@ -1,74 +1,184 @@
-<%- include('./layout/header') %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= watches.watchName %></title>
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 flex flex-col min-h-screen">
+    <%- include('./layouts/header') %>
 
-<div class="container w-75 my-4">
-  <div class="row justify-content-center">
-    <div class="col-md-7 col-lg-4 mb-5 mb-lg-0 wow fadeIn">
-      <div class="card border-0 shadow my-4">
-        <img src="<%= watches.image %>" alt="..." />
-        <div class="card-body p-1-9 p-xl-5">
-          <div class="mb-4 ">
-            <h3 class="h4 mb-4"><%= watches.watchName %></h3>
-            <div><b>Brand :</b> <%= watches.brand.brandname %></div>
-            <div><b>Price :</b> <%= watches.price %></div>
+    <div
+      class="container mx-auto my-4 px-4 md:px-0 w-full md:w-7/12 lg:w-4/12 mb-5 lg:mb-0 flex-grow"
+    >
+      <div class="flex flex-wrap justify-center">
+        <div
+          class="w-full md:w-7/12 lg:w-4/12 mb-5 lg:mb-0 transform h-64 transition duration-500 hover:scale-110"
+        >
+          <div class="card border-0 shadow-sm my-4 mr-8">
+            <img src="<%= watches.image %>" alt="..." class="w-full" />
+            <div class="card-body p-4 lg:p-5">
+              <div class="mb-4">
+                <h3 class="h4 mb-4"><%= watches.watchName %></h3>
+                <div><b>Brand :</b> <%= watches.brand.brandName %></div>
+                <div>
+                  <b>Price :</b>
+                  <span class="text-red-500">
+                    <%= watches.formattedPrice %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full lg:w-8/12 px-4 lg:pl-6">
+          <div class="animate__animated animate__fadeIn">
+            <div class="mb-5">
+              <div class="text-left mb-4 animate__animated animate__fadeIn">
+                <h2 class="h1 mb-0 text-primary">About This Watch</h2>
+              </div>
+              <p><%= watches.watchDescription %></p>
+            </div>
+            <div class="animate__animated animate__fadeIn">
+              <div class="text-left mb-4 animate__animated animate__fadeIn">
+                <h2 class="mb-0 text-primary">Comments & Ratings</h2>
+              </div>
+              <% if (!isAdmin) { %> <% if (typeof memberId !== 'undefined' &&
+              memberId) { %> <% let userHasCommented =
+              watches.comments.some(comment => comment.author._id.toString() ===
+              memberId); %> <% if (!userHasCommented) { %>
+              <form action="/watches/<%= watches._id %>/comments" method="POST">
+                <div class="mb-3">
+                  <label for="comment" class="form-label">Comment</label>
+                  <textarea
+                    class="form-control"
+                    id="comment"
+                    name="comment"
+                    rows="3"
+                    required
+                  ></textarea>
+                </div>
+                <div class="mb-3 flex flex-row space-x-6">
+                  <label for="rating" class="form-label">Rating:</label>
+                  <div class="rating">
+                    <input
+                      type="radio"
+                      name="rating"
+                      id="star1"
+                      class="hidden"
+                      value="1"
+                    />
+                    <label
+                      for="star1"
+                      class="hover:text-yellow-400 cursor-pointer"
+                      >☆</label
+                    >
+                    <input
+                      type="radio"
+                      name="rating"
+                      id="star2"
+                      class="hidden"
+                      value="2"
+                    />
+                    <label
+                      for="star2"
+                      class="hover:text-yellow-400 cursor-pointer"
+                      >☆</label
+                    >
+                    <input
+                      type="radio"
+                      name="rating"
+                      id="star3"
+                      class="hidden"
+                      value="3"
+                    />
+                    <label
+                      for="star3"
+                      class="hover:text-yellow-400 cursor-pointer"
+                      >☆</label
+                    >
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+              <% } else { %>
+              <p>You have already commented on this watch.</p>
+              <% } %> <% } else { %>
+              <p>You need to be logged in to comment.</p>
+              <% } %> <% } else { %>
+              <p>Admins cannot comment.</p>
+              <% } %>
+              <div className="justify-center">
+                <div class="relative flex py-5 items-center">
+                  <div class="flex-grow border-t border-gray-400"></div>
+                  <span class="flex-shrink mx-4 text-primary text-lg uppercase"
+                    >Comments</span
+                  >
+                  <div class="flex-grow border-t border-gray-400"></div>
+                </div>
+              </div>
+              <div id="comments-section">
+                <% watches.comments.forEach(comment => { %>
+                <div class="mb-3">
+                  <h5><%= comment.author.membername %></h5>
+                  <% for (let i = 0; i < comment.rating; i++) { %><label
+                    for="star3"
+                    class="text-yellow-400"
+                    >☆</label
+                  > <% } %>
+                  <p><%= comment.content %></p>
+                  <p>
+                    <small
+                      >Commented on <%= new
+                      Date(comment.createdAt).toLocaleDateString() %> at <%= new
+                      Date(comment.createdAt).toLocaleTimeString() %></small
+                    >
+                  </p>
+                </div>
+                <% }); %> <% if(watches.comments.length === 0) { %>
+                <p>No comments yet. Be the first to comment!</p>
+                <% } %>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-8">
-      <div class="ps-lg-1-6 ps-xl-5">
-        <div class="mb-5 wow fadeIn">
-          <div class="text-start mb-1-6 wow fadeIn">
-            <h2 class="h1 mb-0 text-primary">#About This Watch</h2>
-          </div>
-          <p><%= watches.watchDescription %></p>
-        </div>
-        <div class="wow fadeIn">
-          <div class="text-start mb-1-6 wow fadeIn">
-            <h2 class="mb-0 text-primary">#Comments & Ratings</h2>
-          </div>
-          <form
-            action="/watches/<%= watches._id %>/comments"
-            method="POST"
-          >
-            <div class="mb-3">
-              <label for="comment" class="form-label">Comment</label>
-              <textarea
-                class="form-control"
-                id="comment"
-                name="comment"
-                rows="3"
-                required
-              ></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="rating" class="form-label">Rating</label>
-              <select class="form-select" id="rating" name="rating" required>
-                <option value="1">&#9733;</option>
-                <option value="2">&#9733;&#9733;</option>
-                <option value="3">&#9733;&#9733;&#9733;</option>
-                <!-- Add more options as needed -->
-              </select>
-            </div>
+    <%- include('./layouts/Footler') %>
+  </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const stars = document.querySelectorAll(".rating label");
+      let lastSelectedStarIndex = -1; // Variable to keep track of the last selected star
 
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-          <hr />
-          <div id="comments-section">
-            <% if (watches.comments && watches.comments.length > 0) { %> <%
-            watches.comments.forEach(comment => { %>
-            <div class="mb-3">
-              <h5><%= comment.author.name %></h5>
-              <% for (let i = 0; i < comment.rating; i++) { %> &#9733; <% } %>
-              <p><%= comment.content %></p>
-            </div>
-            <% }); %> <% } else { %>
-            <p>No comments yet. Be the first to comment!</p>
-            <% } %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<%- include ('layout/footer') %>
+      stars.forEach((star, index) => {
+        star.addEventListener("click", () => {
+          if (index === lastSelectedStarIndex) {
+            // If the clicked star is the last selected one, unhighlight all stars
+            stars.forEach((star) => {
+              star.classList.remove("text-yellow-400");
+              star.classList.add("hover:text-yellow-400");
+            });
+            lastSelectedStarIndex = -1; // Reset the last selected star index
+          } else {
+            // Highlight all stars up to the clicked one
+            for (let i = 0; i <= index; i++) {
+              stars[i].classList.add("text-yellow-400");
+              stars[i].classList.remove("hover:text-yellow-400");
+            }
+            // Unhighlight stars after the clicked one
+            for (let j = index + 1; j < stars.length; j++) {
+              stars[j].classList.remove("text-yellow-400");
+              stars[j].classList.add("hover:text-yellow-400");
+            }
+            lastSelectedStarIndex = index; // Update the last selected star index
+          }
+        });
+      });
+    });
+  </script>
+</html>

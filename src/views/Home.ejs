@@ -11,7 +11,7 @@
 <body class="bg-gray-100">
   <%- include('./layouts/header') %>
     <div class="container mx-auto mt-5 px-4">
-      <h1 class="text-center text-3xl font-bold mb-4">Watches</h1>
+      <h1 class="text-center text-3xl font-bold mb-4 uppercase underline underline-offset-8">watches</h1>
       <!-- Search and Filter Form -->
       <form id="searchForm" class="mb-4" method="GET" action="/">
         <div class="flex flex-wrap -mx-3">
@@ -41,47 +41,58 @@
           </div>
         </div>
       </form>
-      <div class="flex flex-wrap -mx-4">
+      <div class="flex flex-wrap -mx-4 mt-4">
         <!-- Loop through your watches and display them -->
-        <% watches.forEach(watch=> { %>
-          <div class="w-full md:w-1/3 px-4 mb-4 h-[600px]">
-            <div class="flex flex-col bg-white rounded-lg shadow-md overflow-hidden h-full">
-              <div class="w-full h-64 overflow-hidden">
-                <img src="<%= watch.image %>" class="w-full h-full object-cover" alt="<%= watch.watchName %>" />
-              </div>
-              <div class="p-4 flex-grow">
-                <h5 class="text-md font-bold mb-2">
-                  <%= watch.watchName %>
-                </h5>
-                <p class="text-gray-700"><strong>Brand:</strong>
-                  <%= watch.brand.brandName %>
-                </p>
-                <p class="text-gray-700 "><strong>Price:</strong> <span class="text-red-500">
-                    <%= watch.formattedPrice %>
-                  </span></p>
-                <!-- Add more details you want to display -->
-              </div>
-            </div>
+        <% if (watches.length===0) { %>
+          <div class="flex text-center py-10 justify-center items-center ">
+            <h2 class="text-xl font-semibold">No items found.</h2>
           </div>
-          <% }); %>
+          <% } else { %>
+            <% watches.forEach(watch=> { %>
+              <div class="w-full md:w-1/3 px-4 mb-4 h-[600px] transform transition duration-500 hover:scale-105">
+                <div class="flex flex-col bg-white rounded-lg shadow-md overflow-hidden h-full">
+                  <div class="w-full h-64 overflow-hidden">
+                    <img src="<%= watch.image %>" class="w-full h-full  object-cover" alt="<%= watch.watchName %>" />
+                  </div>
+                  <div class="p-4 flex-grow">
+                    <a href="/watch/<%= watch._id %>">
+                      <h5 class="text-md font-bold mb-2 text-black">
+                        <%= watch.watchName %>
+                      </h5>
+                    </a>
+                    <p class="text-gray-700"><strong>Brand:</strong>
+                      <%= watch.brand.brandName %>
+                    </p>
+                    <p class="text-gray-700 "><strong>Price:</strong> <span class="text-red-500">
+                        <%= watch.formattedPrice %>
+                      </span></p>
+                    <!-- Add more details you want to display -->
+                  </div>
+                </div>
+              </div>
+              <% }); %>
+                <% } %>
       </div>
-      <!-- Pagination -->
-      <div class="py-4 justify-center flex space-x-2">
-        <% if (page> 1) { %>
-          <a href="/?page=<%= page - 1 %>&search=<%= search %>"
-            class="px-3 py-2 border rounded text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">Previous</a>
+      <nav class="flex items-center gap-x-4 min-w-max justify-center py-4">
+        <% if(page> 1) { %>
+          <a class="text-gray-500 hover:text-gray-900 p-2 inline-flex items-center md:mr-8 mr-1"
+            href="/?page=<%= page - 1 %>&search=<%= search %><%= selectedBrand ? '&brand=' + selectedBrand : '' %>">
+            <span>Back</span>
+          </a>
           <% } %>
             <% for(let i=1; i <=pages; i++) { %>
-              <a href="/?page=<%= i %>&search=<%= search %>"
-                class="px-3 py-2 border rounded text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white <%= i === page ? 'bg-blue-500 text-white' : '' %>">
+              <a class="w-10 h-10 <%= i === page ? 'bg-blue-500 text-white' : 'bg-transparent text-blue-600' %> p-2 justify-center inline-flex items-center rounded-full transition-all duration-150 hover:bg-blue-600 hover:text-blue-600"
+                href="/?page=<%= i %>&search=<%= search %>">
                 <%= i %>
               </a>
               <% } %>
-                <% if (page < pages) { %>
-                  <a href="/?page=<%= page + 1 %>&search=<%= search %>"
-                    class="px-3 py-2 border rounded text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white">Next</a>
+                <% if(page < pages) { %>
+                  <a class="text-gray-500 hover:text-gray-900 p-2 inline-flex items-center md:ml-8 ml-1"
+                    href="/?page=<%= page + 1 %>&search=<%= search %><%= selectedBrand ? '&brand=' + selectedBrand : '' %>">
+                    <span>Next</span>
+                  </a>
                   <% } %>
-      </div>
+      </nav>
     </div>
     <%- include('./layouts/Footler') %>
 </body>
