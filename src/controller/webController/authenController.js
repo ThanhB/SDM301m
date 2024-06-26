@@ -59,7 +59,7 @@ class AuthenController {
       });
       res.cookie("membername", member.membername, { httpOnly: true });
       res.cookie("memberId", member._id.toString(), { httpOnly: true });
-      res.redirect("/");
+      res.redirect("/login");
     } catch (err) {
       console.error(err);
       res

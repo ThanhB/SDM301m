@@ -44,17 +44,19 @@ class BrandController {
       const { id } = req.params;
       // Assuming there's a Watch model with a reference to Brand by brandId
       const watchExists = await Watch.findOne({ brand: id });
-  
+
       if (watchExists) {
         // If a watch associated with the brand exists, do not delete and show an error message
-        return res.status(400).json({ error: "Cannot delete brand as it has associated watches." });
+        return res
+          .status(400)
+          .json({ error: "Cannot delete brand as it has associated watches." });
       }
-  
+
       await Brand.findByIdAndDelete(id);
       res.redirect("/admin/brands");
     } catch (error) {
       console.error("Error deleting brand:", error);
-      res.status(500).json({ error: "Server error" });
+      res.status(500).send({ error: "Server error" });
     }
   }
 
@@ -64,13 +66,24 @@ class BrandController {
   }
 
   static async createBrand(req, res) {
+    const { brandName } = req.body;
+
+    if (!brandName || typeof brandName !== "string") {
+      return res.status(400).send({ message: "Invalid input types" });
+    }
+    if (!brandName) {
+      return res.status(400).send({ message: "All fields are required" });
+    }
     try {
-      const { brandName } = req.body;
+      const existingBrand = await Brand.findOne({ brandName });
+      if (existingBrand) {
+        return res.status(400).send({ message: "Brand already exists" });
+      }
       const newBrand = await Brand({ brandName });
       await newBrand.save();
       res.redirect("/admin/brands");
     } catch (error) {
-      res.status(500).json({ error: err.message });
+      res.status(500).send({ error: err.message });
     }
   }
 }
