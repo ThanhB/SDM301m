@@ -132,15 +132,15 @@ class WatchController {
       if (!watchName || !image || !price || !watchDescription || !brand) {
         return res
           .status(400)
-          .json({ error: "Please provide all required fields" });
+          .send({ error: "Please provide all required fields" });
       }
 
       const brandExists = await Brand.findById(brand);
       if (!brandExists) {
-        return res.status(400).json({ error: "Invalid brand ID" });
+        return res.status(400).send({ error: "Invalid brand ID" });
       }
 
-      const newWatch = new Watches({
+      const newWatch = new Watch({
         watchName,
         image,
         price,
@@ -151,10 +151,12 @@ class WatchController {
       });
 
       const savedWatch = await newWatch.save();
+
+      res.redirect("/admin/watches");
       // Render the watchesCreate.ejs with a success message
     } catch (error) {
       console.error("Error creating watch:", error);
-      res.status(500).json({ error: "Server error" });
+      res.status(500).send({ error: "Server error" });
     }
   }
   //delete watch
@@ -162,29 +164,70 @@ class WatchController {
     try {
       const { id } = req.params;
       await Watch.findByIdAndDelete(id);
-      res.status(200).json({ message: "Watch deleted successfully" });
+      // Redirect with a success message
+      res.redirect("/admin/watches?message=Watch deleted successfully");
     } catch (error) {
       console.error("Error deleting watch:", error);
-      res.status(500).json({ error: "Server error" });
+      // Redirect with an error message
+      res.redirect("/admin/watches?error=Server error");
     }
   }
 
   //edit watch
   static async editwatch(req, res) {
     const membername = req.cookies.membername || "Guest";
-    const watch = await Watches.findById(req.params.id);
-    res.render("editWatches", { watch, membername });
+    const watch = await Watch.findById(req.params.id);
+    const brands = await Brand.find();
+    res.render("editWatches", { watch,brands, membername });
+  }
+
+  //update watch
+  static async updateWatch(req, res) {
+    try {
+      const { id } = req.params;
+      const existingWatch = await Watch.findById(id);
+  
+      if (!existingWatch) {
+        return res.status(404).json({ error: "Watch not found" });
+      }
+  
+      const fieldsToUpdate = ['watchName', 'image', 'price', 'watchDescription', 'comments', 'brand'];
+      const Automatic = req.body.Automatic === "on";
+      let updatedFields = {};
+  
+      fieldsToUpdate.forEach(field => {
+        if (req.body[field] && req.body[field] !== existingWatch[field]) {
+          updatedFields[field] = req.body[field];
+        }
+      });
+  
+      if (req.body.Automatic !== undefined && Automatic !== existingWatch.Automatic) {
+        updatedFields.Automatic = Automatic;
+      }
+  
+      if (Object.keys(updatedFields).length > 0) {
+        await Watch.findByIdAndUpdate(id, updatedFields);
+        res.redirect("/admin/watches?message=Watch updated successfully");
+      } else {
+        res.redirect("/admin/watches?message=No changes made");
+      }
+    } catch (error) {
+      console.error("Error updating watch:", error);
+      res.redirect("/admin/watches?error=Server error");
+    }
   }
 
   //admin watch page
   static async watchPage(req, res) {
     const membername = req.cookies.membername || "Guest";
     try {
-      const watch = await Watch.find(); // Assuming you're fetching members to display
-
+      const watch = await Watch.find(); 
+      const brands  = await Brand.find();
       res.render("adminWatchPage", {
         membername,
         watch,
+        brands,
+        query: req.query,
       });
     } catch (error) {
       res.status(500).json({ message: "Failed to load dashboard", error });

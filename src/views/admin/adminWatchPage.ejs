@@ -1,11 +1,49 @@
 <%- include('./layouts/headerAdmin') %>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+  /* Notification Styles */
+  .alert {
+    position: fixed; /* Fixed position to stay in place during scroll */
+    top: 20px; /* Distance from the top */
+    right: 20px; /* Distance from the right, changed from left to right */
+    z-index: 1000; /* Ensure it's above other content */
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.5s ease-in-out; /* Smooth transition for appearing and disappearing */
+  }
+
+  /* Additional styles for success and error to differentiate them */
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+</style>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+/>
 <div class="bg-gray-100">
   <div class="container mx-auto py-20">
+    <!-- Display success message -->
+    <% if (query.message) { %>
+    <div class="alert alert-success" id="success-alert">
+      <%= query.message %>
+    </div>
+    <% } %>
+    <!-- Display error message -->
+    <% if (query.error) { %>
+    <div class="alert alert-danger" id="error-alert"><%= query.error %></div>
+    <% } %>
     <h4 class="mb-8 text-2xl font-semibold">Watches</h4>
-     <!-- Create Watch Button -->
-     <div class="text-right mb-4">
-      <a href="/admin/watches/create" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <!-- Create Watch Button -->
+    <div class="text-right mb-4">
+      <a
+        href="/admin/watches/create"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
         Create Watch
       </a>
     </div>
@@ -17,6 +55,7 @@
           <th class="border px-4 py-2">Image</th>
           <th class="border px-4 py-2">Price</th>
           <th class="border px-4 py-2">Brand</th>
+          <th class="border px-4 py-2">Description</th>
           <th class="border px-4 py-2">Actions</th>
         </tr>
       </thead>
@@ -33,15 +72,36 @@
             />
           </td>
           <td class="border px-4 py-2"><%= watch.price %></td>
-          <td class="border px-4 py-2"><%= watch.brand %></td>
           <td class="border px-4 py-2">
-             <!-- Update Watch Button -->
-             <a href="/admin/watches/edit/<%= watch._id %>" class="text-blue-500 mx-1">
-              <i class="fas fa-edit"></i> <!-- This is the edit icon -->
+            <% 
+            // Find the brand using the watch's brand ID
+            const brandName = brands.find(brand => brand._id.toString() === watch.brand.toString());
+            // Check if a brand was found and display its name; otherwise, show "Unknown Brand"
+            if(brandName) { 
+              %> 
+              <%= brandName.brandName %> 
+              <% 
+            } else { 
+              %> 
+              Unknown Brand 
+              <% 
+            } 
+            %>
+          </td>
+          <td class="border px-4 py-2"><%= watch.watchDescription %></td>
+          <td class="border px-4 py-2">
+            <!-- Update Watch Button -->
+            <a
+              href="/admin/watches/edit/<%= watch._id %>"
+              class="text-blue-500 mx-1"
+            >
+              <i class="fas fa-edit"></i>
+              <!-- This is the edit icon -->
             </a>
             <!-- Delete Watch Button -->
             <a href="/admin/watches/<%= watch._id %>" class="text-red-500 mx-1">
-              <i class="fas fa-trash-alt"></i> <!-- This is the delete icon -->
+              <i class="fas fa-trash-alt"></i>
+              <!-- This is the delete icon -->
             </a>
           </td>
         </tr>
@@ -50,4 +110,23 @@
     </table>
   </div>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var successAlert = document.getElementById("success-alert");
+    if (successAlert) {
+      successAlert.style.opacity = 1; // Show the alert
+      setTimeout(function () {
+        successAlert.style.opacity = 0; // Hide after 1 second
+      }, 2000);
+    }
+
+    var errorAlert = document.getElementById("error-alert");
+    if (errorAlert) {
+      errorAlert.style.opacity = 1; // Show the alert
+      setTimeout(function () {
+        errorAlert.style.opacity = 0; // Hide after 2 seconds
+      }, 2000);
+    }
+  });
+</script>
 <%- include('./layouts/Footler') %>

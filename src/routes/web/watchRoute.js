@@ -41,10 +41,37 @@ watchWebRouter
     WatchController.createwatchPage
   )
   .post(
+    "/admin/watches/create",
     checkTokenExpirationMiddleware,
     webAuthenticateToken,
     isAdminWeb,
     WatchController.createwatch
   );
+
+watchWebRouter
+  .route("/admin/watches/:id")
+  .get(
+    checkTokenExpirationMiddleware,
+    webAuthenticateToken,
+    isAdminWeb,
+    WatchController.deletewatch
+  );
+
+watchWebRouter.get(
+  "/admin/watches/edit/:id",
+  checkTokenExpirationMiddleware,
+  webAuthenticateToken,
+  isAdminWeb,
+  WatchController.editwatch
+);
+
+watchWebRouter.route("/admin/watches/edit/:id").post(
+  checkTokenExpirationMiddleware,
+  webAuthenticateToken,
+  isAdminWeb,
+  WatchController.updateWatch
+);
+
+
 
 export default watchWebRouter;

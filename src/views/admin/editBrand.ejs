@@ -1,22 +1,48 @@
-<%- include('layout/headerAdmin') %>
+<%- include('./layouts/headerAdmin') %>
+<style>
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
-<div class="container mt-5">
-  <h3 class="mb-4">Edit Brand</h3>
+  .content {
+    flex: 1;
+  }
 
-  <form action="/admin/brands/<%= brand._id %>" method="POST">
-    <div class="mb-3">
-      <label for="brandname" class="form-label">Brand Name</label>
-      <input
-        type="text"
-        class="form-control"
-        id="brandname"
-        name="brandname"
-        value="<%= brand.brandname %>"
-        required
-      />
+  input[type="text"],
+  textarea,
+  select {
+    width: 550px; /* Adjusted the comment to match the width */
+  }
+
+  /* Add any specific footer styles you need */
+  .footer {
+    margin-top: auto;
+  }
+</style>
+<div class="flex-container bg-gray-100">
+  <div class="content py-28 ">
+    <div class="container flex  align-middle items-center flex-col">
+      <h3 class="mb-4">Edit Brand</h3>
+
+      <form action="/admin/brands/<%= brands._id %>" method="POST">
+        <div class="mb-3">
+          <label for="brandname" class="form-label">Brand Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="brandname"
+            name="brandname"
+            value="<%= brands.brandName %>"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Update Brand</button>
+      </form>
     </div>
-    <button type="submit" class="btn btn-primary">Update Brand</button>
-  </form>
+  </div>
+  <div class="footer">
+    <%- include('./layouts/Footler') %>
+  </div>
 </div>
-
-<%- include('layout/footer') %>

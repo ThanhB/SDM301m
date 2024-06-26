@@ -16,6 +16,17 @@ class BrandController {
   }
 
 
+  static async brandEdit(req, res){
+    const membername = req.cookies.membername 
+    const brands = await Brand.findById(req.params.id);
+    res.render("editBrand", { brands, membername });
+  }
+
+
+  static async updateBrand(req, res){
+    
+  }
+
 }
 
 export default BrandController;

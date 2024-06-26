@@ -1,116 +1,131 @@
 <%- include('./layouts/headerAdmin') %>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+  input[type="text"],
+  input[type="url"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 550px; /* Set the width of the input fields to 350px */
+  }
+</style>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+/>
 <div class="bg-gray-100">
   <div class="container mx-auto py-10">
-    <h1 class="text-center text-4xl mt-20">Add New Watch</h1>
-    <form action="/admin/watches" method="POST" class="space-y-6" novalidate>
-      <div class="flex flex-wrap flex-col -mx-3 mb-6">
-        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label
-            for="watchName"
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >Watch Name</label
-          >
-          <input
-            type="text"
-            class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="watchName"
-            name="watchName"
-            required
-          />
-          <p class="text-red-500 text-xs italic">
-            Please provide a watch name.
-          </p>
-        </div>
-        <div class="w-full md:w-1/2 px-3">
-          <label
-            for="image"
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >Image URL</label
-          >
-          <input
-            type="url"
-            class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="image"
-            name="image"
-            required
-          />
-          <p class="text-red-500 text-xs italic">
-            Please provide a valid image URL.
-          </p>
-        </div>
-      </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label
-            for="price"
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >Price</label
-          >
-          <input
-            type="number"
-            class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="price"
-            name="price"
-            min="0"
-            required
-          />
-          <p class="text-red-500 text-xs italic">Please provide a price.</p>
-        </div>
-      </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full md:w-1/2 px-3">
-          <div class="md:flex md:items-center">
-            <label class="md:w-2/3 block text-gray-500 font-bold">
-              <input
-                class="mr-2 leading-tight"
-                type="checkbox"
-                id="Automatic"
-                name="Automatic"
-              />
-              <span class="text-sm">Automatic</span>
-            </label>
+    <h1 class="text-center text-4xl mb-10">Add New Watch</h1>
+    <div class="flex justify-center items-center">
+      <form
+        action="/admin/watches/create"
+        method="POST"
+        class="space-y-6"
+        novalidate
+      >
+        <div class="flex flex-wrap flex-col -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label class="flex  items-center mb-2 text-gray-600 text-sm font-medium">Watch Name <svg width="7" height="7" class="ml-1" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.11222 6.04545L3.20668 3.94744L1.43679 5.08594L0.894886 4.14134L2.77415 3.18182L0.894886 2.2223L1.43679 1.2777L3.20668 2.41619L3.11222 0.318182H4.19105L4.09659 2.41619L5.86648 1.2777L6.40838 2.2223L4.52912 3.18182L6.40838 4.14134L5.86648 5.08594L4.09659 3.94744L4.19105 6.04545H3.11222Z" fill="#EF4444" />
+            </svg>
+           </label>
+            <input
+              type="text"
+              class="block w-full h-11 px-4 py-2.5 leading-7 text-base font-normal shadow-xs text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+              id="watchName"
+              name="watchName"
+              required
+            />
+          </div>
+          <div class="w-full md:w-1/2 px-3">
+            <label class="flex  items-center mb-2 text-gray-600 text-sm font-medium">Image URL <svg width="7" height="7" class="ml-1" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.11222 6.04545L3.20668 3.94744L1.43679 5.08594L0.894886 4.14134L2.77415 3.18182L0.894886 2.2223L1.43679 1.2777L3.20668 2.41619L3.11222 0.318182H4.19105L4.09659 2.41619L5.86648 1.2777L6.40838 2.2223L4.52912 3.18182L6.40838 4.14134L5.86648 5.08594L4.09659 3.94744L4.19105 6.04545H3.11222Z" fill="#EF4444" />
+            </svg>
+           </label>
+            <input
+              type="url"
+              class="block w-full h-11 px-4 py-2.5 leading-7 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+              id="image"
+              name="image"
+              required
+            />
           </div>
         </div>
-      </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full px-3">
-          <label
-            for="watchDescription"
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >Description</label
-          >
-          <textarea
-            class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="watchDescription"
-            name="watchDescription"
-            rows="3"
-            required
-          ></textarea>
-          <p class="text-red-500 text-xs italic">
-            Please provide a description.
-          </p>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label
+              for="price"
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              >Price</label
+            >
+            <input
+              type="number"
+              class="block w-full h-11 px-4 py-2.5 leading-7 text-gray-700 border border-gray-200 rounded  focus:outline-none focus:bg-white focus:border-gray-500"
+              id="price"
+              name="price"
+              min="0"
+              required
+            />
+          </div>
         </div>
-      </div>
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full md:w-1/2 px-3">
-          <label
-            for="brand"
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >Brand ID</label
-          >
-          <input
-            type="text"
-            class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="brand"
-            name="brand"
-            required
-          />
-          <p class="text-red-500 text-xs italic">Please provide a brand ID.</p>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3">
+            <div class="md:flex md:items-center">
+              <label class="md:w-2/3 block text-gray-500 font-bold">
+                <input
+                  class="mr-2 leading-tight"
+                  type="checkbox"
+                  id="Automatic"
+                  name="Automatic"
+                />
+                <span class="text-sm">Automatic</span>
+              </label>
+            </div>
+          </div>
         </div>
-      </div>
-      <button class="btn btn-primary" type="submit">Add Watch</button>
-    </form>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full px-3">
+            <label
+              for="watchDescription"
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              >Description</label
+            >
+            <textarea
+              class="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="watchDescription"
+              name="watchDescription"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full px-3">
+            <label
+              for="brand"
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              >Brand</label
+            >
+            <select
+              class="block w-full h-11 px-3 py-2.5 leading-7 text-gray-700 border border-gray-200 rounded  focus:outline-none focus:bg-white focus:border-gray-500"
+              id="brand"
+              name="brand"
+              required
+            >
+              <option value=""></option>
+              <% brands.forEach(function(brand) { %>
+              <option value="<%= brand._id %>"><%= brand.brandName %></option>
+              <% }); %>
+            </select>
+          </div>
+        </div>
+        <div class="space-x-4">
+        <button class="btn btn-primary" type="submit">Add Watch</button>
+        <button class="btn btn-primary">
+          <a href="/admin/watches" class="text-white">Back to Watch</a>
+        </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 <%- include('./layouts/Footler') %>

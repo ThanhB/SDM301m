@@ -15,4 +15,13 @@ brandWebRoute.get(
   isAdminWeb,
   BrandController.brandPage
 );
+
+brandWebRoute.get(
+  "/admin/brands/edit/:id",
+  checkTokenExpirationMiddleware,
+  webAuthenticateToken,
+  isAdminWeb,
+  BrandController.brandEdit
+);
+
 export default brandWebRoute;

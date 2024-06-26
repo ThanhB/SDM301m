@@ -12,7 +12,6 @@ class commentController {
     const { id } = req.params;
     const { comment, rating } = req.body;
     const author = req.cookies.memberId; // Assuming memberId is stored in cookies
-    console.log(`Received watch ID: ${id}`);
   
     try {
       const watch = await watches.findById(id);

@@ -1,55 +1,145 @@
-<%- include('layout/headerAdmin') %>
+<%- include('./layouts/headerAdmin') %>
 
-<div class="container mt-5">
-  <h3 class="mb-4">Edit Watches</h3>
+<style>
+  input[type="text"],
+  input[type="url"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 550px; /* Set the width of the input fields to 350px */
+  }
 
-  <form action="/admin/watches/<%= watch._id %>" method="POST">
-    <div class="mb-3">
-      <label for="watchname" class="form-label">Watch Name</label>
-      <input
-        type="text"
-        class="form-control"
-        id="watchname"
-        name="watchName"
-        value="<%= watch.watchName %>"
-        required
-      />
+  /* Flex container for main content and footer */
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Main content area */
+  .content {
+    flex: 1;
+  }
+</style>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+/>
+
+<div class="flex-container">
+  <div class="content bg-gray-100">
+    <div class="container mx-auto pt-28">
+      <h1 class="text-center text-4xl mb-10">Edit Watches</h1>
+      <div class="flex justify-center items-center">
+        <form
+          action="/admin/watches/edit/<%= watch._id %>"
+          method="POST"
+          class="space-y-6"
+          novalidate
+        >
+          <div class="flex flex-wrap flex-col -mx-3 mb-6">
+            <div class="w-full px-3 mb-6">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="watchname"
+                >Watch Name</label
+              >
+              <input
+                type="text"
+                class="block w-full h-11 px-4 py-2.5 leading-7 text-base font-normal shadow-xs text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                id="watchname"
+                name="watchName"
+                value="<%= watch.watchName %>"
+                required
+              />
+            </div>
+            <div class="w-full px-3">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="image"
+                >Image URL</label
+              >
+              <input
+                type="url"
+                class="block w-full h-11 px-4 py-2.5 leading-7 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                id="image"
+                name="image"
+                value="<%= watch.image %>"
+                required
+              />
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="price"
+                >Price</label
+              >
+              <input
+                type="number"
+                class="block w-full h-11 px-4 py-2.5 leading-7 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                id="price"
+                name="price"
+                value="<%= watch.price %>"
+                required
+              />
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="watchDescription"
+                >Watch Description</label
+              >
+              <textarea
+                class="block w-full h-32 px-4 py-2.5 leading-7 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                id="watchDescription"
+                name="watchDescription"
+                required
+              ><%= watch.watchDescription %></textarea
+              >
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="brand"
+                >Brand</label
+              >
+              <select
+                class="block w-full h-11 px-3 py-2.5 leading-7 text-gray-700 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+                id="brand"
+                name="brand"
+                required
+              >
+                <!-- Find the brand object in the brands array that matches the watch's brand ID and display its name -->
+                <% const selectedBrand = brands.find(brand => brand._id ===
+                watch.brand); %> <% if(selectedBrand) { %>
+                <option value="<%= selectedBrand._id %>" selected>
+                  <%= selectedBrand.brandName %>
+                </option>
+                <% } %>
+                <!-- Loop through all brands and display them, but skip the already selected brand -->
+                <% brands.forEach(function(brand) { %> <% if(brand._id !==
+                watch.brand) { %>
+                <option value="<%= brand._id %>"><%= brand.brandName %></option>
+                <% } %> <% }); %>
+              </select>
+            </div>
+          </div>
+          <div class="space-x-4">
+            <button class="btn btn-primary" type="submit">Update Watch</button>
+            <button class="btn btn-primary">
+              <a href="/admin/watches" class="text-white">Back to Watch</a>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="mb-3">
-      <label for="image" class="form-label">Image URL</label>
-      <input
-        type="text"
-        class="form-control"
-        id="image"
-        name="image"
-        value="<%= watch.image %>"
-        required
-      />
-    </div>
-    <div class="mb-3">
-      <label for="price" class="form-label">Price</label>
-      <input
-        type="text"
-        class="form-control"
-        id="price"
-        name="price"
-        value="<%= watch.price %>"
-        required
-      />
-    </div>
-    <div class="mb-3">
-      <label for="brand" class="form-label">Brand</label>
-      <input
-        type="text"
-        class="form-control"
-        id="brand"
-        name="brand"
-        value="<%= watch.brand %>"
-        required
-      />
-    </div>
-    <button type="submit" class="btn btn-primary">Update Watch</button>
-  </form>
+  </div>
+  <%- include('./layouts/Footler') %>
 </div>
-
-<%- include('layout/footer') %>
