@@ -1,5 +1,6 @@
 import Brand from "../../models/brand.js";
 import jwt from "jsonwebtoken";
+import Watch from "../../models/watcheschema.js";
 class BrandController {
   static async brandPage(req, res) {
     const membername = req.cookies.membername || "Guest";
@@ -15,18 +16,63 @@ class BrandController {
     }
   }
 
-
-  static async brandEdit(req, res){
-    const membername = req.cookies.membername 
+  static async brandEdit(req, res) {
+    const membername = req.cookies.membername;
     const brands = await Brand.findById(req.params.id);
     res.render("editBrand", { brands, membername });
   }
 
+  static async updateBrand(req, res) {
+    const { id } = req.params;
+    const { brandName } = req.body;
+    try {
+      const updatedBrand = await Brand.findByIdAndUpdate(
+        id,
+        { brandName },
+        { new: true }
+      );
 
-  static async updateBrand(req, res){
-    
+      res.redirect("/admin/brands");
+    } catch (error) {
+      console.error("Error updating brand:", error);
+      res.status(500).json({ error: "Server error" });
+    }
   }
 
+  static async deleteBrand(req, res) {
+    try {
+      const { id } = req.params;
+      // Assuming there's a Watch model with a reference to Brand by brandId
+      const watchExists = await Watch.findOne({ brand: id });
+  
+      if (watchExists) {
+        // If a watch associated with the brand exists, do not delete and show an error message
+        return res.status(400).json({ error: "Cannot delete brand as it has associated watches." });
+      }
+  
+      await Brand.findByIdAndDelete(id);
+      res.redirect("/admin/brands");
+    } catch (error) {
+      console.error("Error deleting brand:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  }
+
+  static async createBrandPage(req, res) {
+    const membername = req.cookies.membername;
+    res.render("brandsCreate", { membername });
+  }
+
+  static async createBrand(req, res) {
+    try {
+      const { brandName } = req.body;
+      const newBrand = await Brand({ brandName });
+      await newBrand.save();
+      res.redirect("/admin/brands");
+    } catch (error) {
+      res.status(500).json({ error: err.message });
+    }
+  }
 }
 
 export default BrandController;

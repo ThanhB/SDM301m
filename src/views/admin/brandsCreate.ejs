@@ -1,21 +1,44 @@
-<%- include('layout/headerAdmin') %>
-
-<div class="container mt-5">
-  <h3 class="mb-4">Brand</h3>
-  <form action="/admin/brands" method="post">
-    <div class="mb-3">
-      <label for="brandName" class="form-label">Brand Name:</label>
-      <input
-        type="text"
-        class="form-control w-50"
-        id="brandName"
-        name="brandname"
-        placeholder="Enter brand name"
-        required
-      />
+<%- include('./layouts/headerAdmin') %>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+  }
+  .page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .content-wrap {
+    flex: 1;
+  }
+  .footer {
+    margin-top: auto;
+  }
+  input[type="text"],
+  select {
+    width: 550px; /* Adjusted the comment to match the width */
+  }
+</style>
+<div class="page-container bg-gray-100">
+  <div class="content-wrap">
+    <div class="container py-28 flex  align-middle items-center flex-col">
+      <h3 class="mb-4">Brand</h3>
+      <form action="/admin/brand/create" method="post">
+        <div class="mb-3">
+          <label for="brandName" class="form-label">Brand Name:</label>
+          <input
+            type="text"
+            class="form-control "
+            id="brandName"
+            name="brandName"
+            placeholder="Enter brand name"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Add Brand</button>
+      </form>
     </div>
-    <button type="submit" class="btn btn-primary">Add Brand</button>
-  </form>
+  </div>
+  <div class="footer"><%- include('./layouts/Footler') %></div>
 </div>
-
-<%- include('layout/footer') %>
