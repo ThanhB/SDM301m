@@ -27,12 +27,12 @@ class commentController {
           .json({ message: "You have already posted a comment for this watch" });
       }
   
-      const newComment = new Comment({
+      const newComment = new {
         content: comment,
         rating,
         author,
         watch: watch._id, // Đảm bảo rằng bạn đang truyền đúng id của đồng hồ
-      });
+      };
   
       await newComment.save();
       watch.comments.push(newComment);
