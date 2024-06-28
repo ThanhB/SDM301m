@@ -1,6 +1,11 @@
 <%- include('./layouts/headerAdmin') %>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+/>
 <style>
-  body, html {
+  body,
+  html {
     height: 100%;
     margin: 0;
   }
@@ -22,21 +27,26 @@
 </style>
 <div class="page-container bg-gray-100">
   <div class="content-wrap">
-    <div class="container py-28 flex  align-middle items-center flex-col">
+    <div class="container py-28 flex align-middle items-center flex-col">
       <h3 class="mb-4">Brand</h3>
       <form action="/admin/brand/create" method="post">
         <div class="mb-3">
           <label for="brandName" class="form-label">Brand Name:</label>
           <input
             type="text"
-            class="form-control "
+            class="form-control"
             id="brandName"
             name="brandName"
             placeholder="Enter brand name"
             required
           />
         </div>
-        <button type="submit" class="btn btn-primary">Add Brand</button>
+        <div class="space-x-4">
+          <button class="btn btn-primary" type="submit">Add Brand</button>
+          <button class="btn btn-primary">
+            <a href="/admin/brands" class="text-white">Back to Brand</a>
+          </button>
+        </div>
       </form>
     </div>
   </div>

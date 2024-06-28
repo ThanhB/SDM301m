@@ -10,6 +10,7 @@ class BrandController {
       res.render("adminBrandPage", {
         membername,
         brands,
+        query: req.query,
       });
     } catch (error) {
       res.status(500).json({ message: "Failed to load dashboard", error });
@@ -42,21 +43,22 @@ class BrandController {
   static async deleteBrand(req, res) {
     try {
       const { id } = req.params;
-      // Assuming there's a Watch model with a reference to Brand by brandId
       const watchExists = await Watch.findOne({ brand: id });
 
       if (watchExists) {
-        // If a watch associated with the brand exists, do not delete and show an error message
-        return res
-          .status(400)
-          .json({ error: "Cannot delete brand as it has associated watches." });
+        // Redirect with error message
+        return res.redirect(
+          `/admin/brands?error=Cannot delete brand as it has associated watches.`
+        );
       }
 
       await Brand.findByIdAndDelete(id);
-      res.redirect("/admin/brands");
+      // Redirect with success message
+      res.redirect("/admin/brands?message=Brand successfully deleted.");
     } catch (error) {
       console.error("Error deleting brand:", error);
-      res.status(500).send({ error: "Server error" });
+      // Redirect with server error message
+      res.redirect("/admin/brands?error=Server error");
     }
   }
 
@@ -66,24 +68,29 @@ class BrandController {
   }
 
   static async createBrand(req, res) {
-    const { brandName } = req.body;
+    let { brandName } = req.body;
+
+    if (brandName) {
+      brandName = brandName.trim();
+    }
 
     if (!brandName || typeof brandName !== "string") {
-      return res.status(400).send({ message: "Invalid input types" });
+      return res.redirect("/admin/brands?error=Invalid input type.");
     }
-    if (!brandName) {
-      return res.status(400).send({ message: "All fields are required" });
-    }
+
     try {
-      const existingBrand = await Brand.findOne({ brandName });
+      // Adjusted to use a case-insensitive search
+      const existingBrand = await Brand.findOne({
+        brandName: new RegExp("^" + brandName + "$", "i"),
+      });
       if (existingBrand) {
-        return res.status(400).send({ message: "Brand already exists" });
+        return res.redirect("/admin/brands?error=Brand already existed.");
       }
-      const newBrand = await Brand({ brandName });
+      const newBrand = await Brand({ brandName }); // Ensure brandName is normalized as needed
       await newBrand.save();
-      res.redirect("/admin/brands");
+      res.redirect("/admin/brands?message=Brand created successfully.");
     } catch (error) {
-      res.status(500).send({ error: err.message });
+      return res.status(500).send({ error: error.message });
     }
   }
 }

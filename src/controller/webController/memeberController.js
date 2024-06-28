@@ -79,7 +79,7 @@ class memberController {
 
   static async updateMember(req, res) {
     const membername = req.cookies.membername;
-
+    
     if (!membername) {
       return res.status(403).send("Unauthorized");
     }
@@ -106,7 +106,12 @@ class memberController {
 
   static async chagePassword(req, res) {
     const membername = req.cookies.membername;
-
+    let isAdmin = false;
+    const token = req.cookies.token;
+    if (token) {
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      isAdmin = decoded.isAdmin;
+    }
     if (!membername) {
       return res.status(403).send("Unauthorized");
     }
@@ -124,14 +129,24 @@ class memberController {
       const isMatch = await bcrypt.compare(currentPassword, member.password);
 
       if (!isMatch) {
-        return res.status(400).send("Current password is incorrect");
+        // Include member object here
+        return res.render("editProfile", {
+          error: "Current password is incorrect",
+          member,
+          membername,
+          isAdmin: isAdmin
+        });
       }
 
       // Check if the new password is the same as the current password
       if (currentPassword === newPassword) {
-        return res
-          .status(400)
-          .send("New password must be different from the current password");
+        // Include member object here
+        return res.render("editProfile", {
+          error: "New password must be different from the current password",
+          member,
+          membername,
+          isAdmin: isAdmin,
+        });
       }
 
       // Hash new password before saving
@@ -145,8 +160,8 @@ class memberController {
     }
   }
 
-   //dashboard
-   static async dashboard(req, res) {
+  //dashboard
+  static async dashboard(req, res) {
     const membername = req.cookies.membername || "Guest";
     try {
       const member = await members.find(); // Assuming you're fetching members to display

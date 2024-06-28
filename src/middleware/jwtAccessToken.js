@@ -109,7 +109,6 @@ export function webAuthenticateToken(req, res, next) {
     const decoded = jsonwebtoken.verify(token, process.env.ACCESS_TOKEN_SECRET); // Xác thực token
     req.user = decoded; // Lưu thông tin user vào req để sử dụng trong các xử lý tiếp theo
     next(); // Chuyển tiếp yêu cầu đến middleware hoặc route tiếp theo
-    console.log(decoded);
   } catch (error) {
     return res.status(403).send("Invalid token"); // Token không hợp lệ, trả về lỗi Forbidden
   }

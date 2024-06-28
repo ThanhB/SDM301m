@@ -94,7 +94,7 @@ class WatchController {
         .populate("brand");
 
       if (!watch) {
-        return res.status(404).json({ message: "Watch not found" });
+        return res.render("404", { membername, isAdmin });
       }
 
       watch.formattedPrice = formatPrice(watch.price);
@@ -125,19 +125,18 @@ class WatchController {
   //create watch
   static async createwatch(req, res) {
     try {
-      const { watchName, image, price, watchDescription, comments, brand } =
-        req.body;
+      const { watchName, image, price, watchDescription, comments, brand } = req.body;
       const Automatic = req.body.Automatic === "on";
 
       if (!watchName || !image || !price || !watchDescription || !brand) {
-        return res
-          .status(400)
-          .send({ error: "Please provide all required fields" });
+        // Redirect with error message for missing fields
+        return res.redirect("/admin/watches/create?error=Please provide all required fields");
       }
 
       const brandExists = await Brand.findById(brand);
       if (!brandExists) {
-        return res.status(400).send({ error: "Invalid brand ID" });
+        // Redirect with error message for invalid brand ID
+        return res.redirect("/admin/watches/create?error=Invalid brand ID");
       }
 
       const newWatch = new Watch({
@@ -150,15 +149,16 @@ class WatchController {
         brand,
       });
 
-      const savedWatch = await newWatch.save();
+      await newWatch.save();
 
-      res.redirect("/admin/watches");
-      // Render the watchesCreate.ejs with a success message
+      // Redirect with success message
+      res.redirect("/admin/watches?message=Watch successfully created");
     } catch (error) {
       console.error("Error creating watch:", error);
-      res.status(500).send({ error: "Server error" });
+      // Redirect with server error message
+      res.redirect("/admin/watches/create?error=Server error");
     }
-  }
+}
   //delete watch
   static async deletewatch(req, res) {
     try {
