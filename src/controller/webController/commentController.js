@@ -4,8 +4,6 @@ import watches from "../../models/watcheschema.js";
 import mongoose from "mongoose";
 
 
-const Comment = mongoose.model("Comment", commentSchema);
-
 class commentController {
   //add a comment to a watch
   static async createComment(req, res) {
@@ -20,18 +18,19 @@ class commentController {
       }
   
       // Kiểm tra xem thành viên đã đăng bình luận cho đồng hồ này chưa
-      const existingComment = await Comment.findOne({ author, watch: id });
+      const existingComment = watch.comments.find(
+        (comment) => comment.author.toString() === member._id.toString()
+      );
       if (existingComment) {
         return res
           .status(400)
-          .json({ message: "You have already posted a comment for this watch" });
+          .json({ message: "Member has already commented on this watch" });
       }
   
       const newComment = new {
         content: comment,
         rating,
-        author,
-        watch: watch._id, // Đảm bảo rằng bạn đang truyền đúng id của đồng hồ
+        author, 
       };
   
       await newComment.save();
