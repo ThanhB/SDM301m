@@ -10,7 +10,7 @@ class commentController {
     const { id } = req.params;
     const { comment, rating } = req.body;
     const author = req.cookies.memberId; // Assuming memberId is stored in cookies
-  
+    console.log("check author", author);
     try {
       const watch = await watches.findById(id);
       if (!watch) {
@@ -19,24 +19,24 @@ class commentController {
   
       // Kiểm tra xem thành viên đã đăng bình luận cho đồng hồ này chưa
       const existingComment = watch.comments.find(
-        (comment) => comment.author.toString() === member._id.toString()
+        (comment) => comment.author === members._id
       );
+      
       if (existingComment) {
         return res
           .status(400)
           .json({ message: "Member has already commented on this watch" });
       }
   
-      const newComment = new {
+      const newComment =  {
         content: comment,
         rating,
         author, 
       };
-  
-      await newComment.save();
+      console.log("check comment", newComment);
       watch.comments.push(newComment);
       await watch.save();
-  
+
       res.redirect(`/watch/${id}`);
     } catch (error) {
       res.status(500).json({ message: error.message });
